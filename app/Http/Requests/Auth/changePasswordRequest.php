@@ -24,8 +24,10 @@ class changePasswordRequest extends Request
     {
         return [
             'current_password' => 'required',
-            'new_password' => ['required',Rules\Password::defaults()],
-            'confirm_password' => 'required|same:new_password',
+            'new_password' => ['required',Rules\Password::defaults(), new \App\Rules\StrongPassword
+
+],            'confirm_password' => 'required|same:new_password',
         ];
+
     }
 }

@@ -16,31 +16,18 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ChangePasswordController extends Controller
 {
-    public function __invoke(request $request)
+    public function __invoke(changePasswordRequest $request)
     {
-     // Validate the request data
-         $validator = Validator::make($request->all(), [
-            'current_password' => 'required',
-            'new_password' => ['required', new StrongPassword],
-            'confirm_password' => 'required|same:new_password',
-         ]);
+        $validatedData = $request->validated();
 
-        // Check for validation errors
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'code' => 422,
-                'message' => 'Validation error',
-                'data' => $validator->errors()->toArray()
-            ], 422);
-        }
+
 
     // Get the authenticated user
     $user = Auth::user();
 
     // Check if the current password matches the one in the database
     if (!Hash::check($request->current_password, $user->password)) {
-        return $this->handleResponse(message:'Current password is incorrect', code:401 );
+        return $this->handleResponse(message:'Current password is incorrect', code:401 , status:false  );
 
     }
 

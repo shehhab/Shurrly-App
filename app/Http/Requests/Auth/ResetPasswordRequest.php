@@ -15,8 +15,9 @@ class ResetPasswordRequest extends Request
         return [
             'email'=>['required','string','lowercase','email','exists:seekers,email'],
             'otp'=>['required','max:4'],
-            'password'=>['required',Rules\Password::defaults(),'confirmed'],
-        ];
+            'password' => ['required',Rules\Password::defaults(), new \App\Rules\StrongPassword
+
+],        ];
     }
 
 
