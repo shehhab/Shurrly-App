@@ -51,6 +51,7 @@ class ProductResources extends JsonResource
         return $data;
 
 
+        
     }
 
 
