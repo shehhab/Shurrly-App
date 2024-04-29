@@ -38,10 +38,14 @@ class ProductResources extends JsonResource
 
         if ($this->video_duration !== null) {
             $data['video_duration'] = $this->video_duration;
+            $data = array_merge($data, ['type' => 'video']);
+
         }
 
         if ($this->pdf_page_count !== null) {
-            $data['pdf_page_count'] = $this->pdf_page_count;
+            $data['pdf_page_count'] = $this->pdf_page_count." "."Page";
+            $data = array_merge($data, ['type' => 'PDF']);
+
         }
 
         return $data;
