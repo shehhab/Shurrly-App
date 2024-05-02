@@ -31,7 +31,7 @@ class SessionScheduleController extends Controller
             // Format the session date
             $sessionDate = Carbon::createFromFormat('d/m/Y', $validatedData['session_date']);
 
-           
+
 
             // Check if the session date is not today or any date in the past
             if ($sessionDate->isToday() || $sessionDate->isPast()) {

@@ -28,7 +28,7 @@ class UpdateProfileController extends Controller
 
         // Convert date_birth format to 'Y-m-d'
         if (isset($validatedData['date_birth'])) {
-            $validatedData['date_birth'] = Carbon::createFromFormat('d/m/Y', $validatedData['date_birth'])->format('Y-m-d');
+            $validatedData['date_birth'] = Carbon::createFromFormat('d-m-Y', $validatedData['date_birth'])->format('Y-m-d');
         }
 
         if ($request->hasFile('image') ) {

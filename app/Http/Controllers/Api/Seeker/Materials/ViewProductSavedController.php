@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Seeker\Explore;
+namespace App\Http\Controllers\Api\Seeker\Materials;
 
 use App\Models\SavedProduct;
 use Illuminate\Http\Request;

@@ -2,48 +2,42 @@
 
 namespace App\Http\Controllers\Api\Seeker\Home;
 
-use App\Models\Skill;
 use App\Models\Advisor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Traits\ResponseTrait;
 
 class HomeController extends Controller
 {
+    use ResponseTrait;
+
     public function __invoke()
     {
+        $perPage =  6;
 
-    $avgRatings = DB::table('rate_advisors')
-        ->select('advisor_id', DB::raw('AVG(rate) as avg_rate'))
-        ->groupBy('advisor_id')
-        ->get();
+        $advisors = Advisor::with('seeker', 'skills')
+            ->where('approved', 1)
+            ->withAvg('rate_advisors', 'rate')
+            ->paginate($perPage);
 
-    $advisors = Advisor::with('seeker')
-        ->where('approved', 1)
-        ->get();
+        $topRatedAdvisors = $advisors->map(function ($advisor) {
+            return [
+                'id' => $advisor->id,
+                'name' => $advisor->seeker->name,
+                'photo_url' => $advisor->getFirstMediaUrl('advisor_profile_image'),
+                'skills' => $advisor->skills->pluck('name')->toArray(),
+                'categories' => $advisor->category->pluck('name'),
+                'offer' => $advisor->offer,
+                'avg_rate' => $advisor->rate_advisors_avg_rate,
+            ];
+        });
 
-    $formattedAdvisors = $advisors->map(function ($advisor) use ($avgRatings) {
-        $avgRating = $avgRatings->firstWhere('advisor_id', $advisor->id);
-        $avgRate = $avgRating ? $avgRating->avg_rate : null;
+        $paginationData = $this->pagination($advisors);
 
-        return [
-            'id' => $advisor->id,
-            'name' => $advisor->seeker->name,
-            'photo_url' => $advisor->getFirstMediaUrl('advisor_profile_image'),
-            'skills' => $advisor->skills->pluck('name')->toArray(),
-            'avg_rate' => $avgRate,
-        ];
-    });
-
-    $topRatedAdvisors = $formattedAdvisors->sortByDesc('avg_rate')->take(5);
-
-    $skills = Skill::pluck('name', 'id');
-
-    return $this->handleResponse(data: [
-        'top_rated_advisors' => $topRatedAdvisors->values()->all(),
-        'all_advisors' => $formattedAdvisors->values()->all(),
-        'Skills' => $skills,
-    ]);
-
+        return response()->json([
+            'top_rated_advisors' => [
+                'data' => $topRatedAdvisors,
+                'pagination' =>$paginationData
+            ],
+        ]);
     }
 }

@@ -41,14 +41,14 @@ class RegisterRequest extends Request
     }],
 
 
-            'password' => ['required',Rules\Password::defaults(), new \App\Rules\StrongPassword 
+            'password' => ['required',Rules\Password::defaults(), new \App\Rules\StrongPassword
 
 ],
 
 
 
 
-            'date_birth' => ['required','date_format:d/m/Y', 'before_or_equal:' . now()->subYears(16)->format('d/m/Y'),'after_or_equal:' . now()->subYears(70)->format('d/m/Y')],
+            'date_birth' => ['required','date_format:d-m-Y', 'before_or_equal:' . now()->subYears(16)->format('d/m/Y'),'after_or_equal:' . now()->subYears(70)->format('d-m-Y')],
             'image'=>['sometimes','image','mimes:jpg,jpeg,png,webp,gif','min:50','max:8000']
         ];
     }

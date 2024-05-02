@@ -14,14 +14,7 @@ class Category extends Model
 
     ];
 
-    public function cats()
-    {
-        return $this->hasMany(Cat::class);
-    }
-    public function skills()
-    {
-        return $this->hasMany(Cat::class);
-    }
+
     public function advisors()
     {
         return $this->hasMany(Advisor::class);

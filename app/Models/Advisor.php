@@ -86,5 +86,11 @@ class Advisor extends Model implements HasMedia
                     ->withPivot('rate', 'message')
                     ->withTimestamps();
     }
+        // Define the relationship with RateAdvisor
+        public function rate_advisors()
+        {
+            return $this->hasMany(RateAdvisor::class);
+        }
+
 
 }

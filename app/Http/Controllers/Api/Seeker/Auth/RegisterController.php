@@ -17,7 +17,7 @@ class RegisterController extends Controller
 
         $validatedData = $request->validated();
 
-        $validatedData['date_birth'] = \Carbon\Carbon::createFromFormat('d/m/Y', $validatedData['date_birth']);
+        $validatedData['date_birth'] = \Carbon\Carbon::createFromFormat('d-m-Y', $validatedData['date_birth']);
         // register logic
         if (!\Spatie\Permission\Models\Role::where('name', 'seeker')->exists()) {
             return $this->handleResponse(message : 'Role  does not exist. Please contact the administrator.',status :false,code : 400);

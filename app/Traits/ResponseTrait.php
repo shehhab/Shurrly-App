@@ -29,12 +29,17 @@ trait ResponseTrait
     public function pagination($collection)
     {
         return [
-            'total' => $collection->total(),
-            'per_page' => $collection->perPage(),
+            'total' => $collection->total() ,
+            'per_page' => $collection->perPage(), //count iteam
             'current_page' => $collection->currentPage(),
+            'next_page_url' => $collection->nextPageUrl(),
+            'prev_page_url' => $collection->previousPageUrl(),
             'last_page' => $collection->lastPage(),
             'from' => $collection->firstItem(),
             'to' => $collection->lastItem(),
         ];
     }
+
+
+
 }
