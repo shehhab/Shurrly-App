@@ -22,10 +22,6 @@ return new class extends Migration
 
         $skillData = [
             ['name' => 'Business', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Business.PNG'],
-            ['name' => 'Economics', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Economics.PNG'],
-            ['name' => 'Finance', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Finance.PNG'],
-            ['name' => 'Management', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Management.PNG'],
-            ['name' => 'Marketing', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Marketing.PNG'],
         ];
 
         foreach ($skillData as $data) {
@@ -36,7 +32,7 @@ return new class extends Migration
             ]);
 
             $imagePath = asset($data['image_path']);
-            $skill->addMediaFromUrl($imagePath)->toMediaCollection('image_category');
+            $skill->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
         }
     }
 
