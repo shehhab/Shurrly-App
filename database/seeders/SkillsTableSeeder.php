@@ -13,13 +13,6 @@ class SkillsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $skill1 = Skill::create([
-            'name' => 'Accounting',
-            'public' => true,
-            'categories_id' => 1,
-        ]);
-        $imagePath = asset('Default\Category\Accounting.PNG');
-        $skill1->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
 
 
 
