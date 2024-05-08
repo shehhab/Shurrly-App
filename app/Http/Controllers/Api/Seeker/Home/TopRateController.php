@@ -41,11 +41,16 @@ class TopRateController extends Controller
             ];
         }
 
-        return response()->json([
-            'top_rated_advisors' => [
-                'data' => $topRatedAdvisors,
+        return $this->handleResponse(
+            status:true,
+            message:'Successfully',
+            data:[
+                'top_rated_advisors' => $topRatedAdvisors,
                 'pagination' => $this->pagination($avgRatings)
+            
             ],
-        ]);
+        );
     }
+
+
 }

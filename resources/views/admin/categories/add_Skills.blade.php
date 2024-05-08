@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-body p-5">
 
-                    <form method="POST" action="{{route('products.index') }}">
+                    <form method="POST" action="{{ route('products.index') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Category</label>
@@ -22,9 +22,12 @@
                         </div>
                         <div class="form-group">
                             <label>Name Skill</label>
-                            <input type="text" name="name" class="form-control">
+                            <input type="text" name="name" class="form-control" required>
                         </div>
-
+                        <div class="form-group">
+                            <label>Image</label>
+                            <input type="file" name="image_catogory" class="form-control-file" required>
+                        </div>
 
                         @if(session('existing_product'))
                             <div class="alert alert-danger" role="alert">
@@ -36,6 +39,16 @@
                             <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
+                    <script>
+                        // JavaScript to check if file input is empty
+                        document.querySelector('form').onsubmit = function() {
+                            var fileInput = document.querySelector('input[type=file]');
+                            if (!fileInput.files.length) {
+                                alert('Please select an image.');
+                                return false; // Prevent form submission
+                            }
+                        };
+                    </script>
                 </div>
             </div>
         </div>

@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Skill extends Model
+
+class Skill extends Model implements HasMedia
 {
-    use HasFactory;
-    protected $fillable = ['name',
+    use HasFactory,InteractsWithMedia;
+    protected $fillable = [
+    'name',
     'public',
     "categories_id"
 ];
@@ -27,5 +31,9 @@ class Skill extends Model
         return $this->belongsToMany(Product::class);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image_catogory');
+    }
 
 }

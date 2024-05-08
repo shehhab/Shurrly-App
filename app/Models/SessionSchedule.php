@@ -18,6 +18,7 @@ class SessionSchedule extends Model
         "advisor_approved",
         "seeker_history",
         "advisor_history",
+        'linkseesion'
 
     ];
     public function seeker()

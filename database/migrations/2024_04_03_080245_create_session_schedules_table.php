@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('seeker_history')->default(true);
             $table->boolean('advisor_history')->default(true);
             $table->enum('advisor_approved',["Pennding","Accept","Not_Accept"])->default("Pennding");
-
+            $table->string('linkseesion')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });

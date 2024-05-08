@@ -42,13 +42,7 @@ class InitRolesCommand extends Command
             'guard'=>'web'
         ]);
 
-        Category::create([
-            'name' => 'bussniss',
-        ]);
-        Skill::create([
-            'name'=> 'php',
-            'categories_id	'=> 1
-        ]);
+
 
         $this->info('Update DataBase successfully.');
         return;

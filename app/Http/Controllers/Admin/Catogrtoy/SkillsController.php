@@ -38,6 +38,12 @@ public function update(Request $request, $id)
 {
     $category = Skill::findOrFail($id);
     $category->update($request->all());
+             // Upload image if present
+    if ($request->hasFile('image_catogory')) {
+        $category->clearMediaCollection('image_catogory'); 
+
+        $category->addMediaFromRequest('image_catogory')->toMediaCollection('image_catogory');
+    }
     Session::flash('success', 'Successfully update Skill');
 
     // Redirect to the desired page

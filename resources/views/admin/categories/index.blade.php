@@ -63,7 +63,7 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $category->name}}</td>
-                <td>n/o</td>
+                <td>{{ $category->categories->name}}</td>
                 <td>{{ $category->created_at}}</td>
                 <td>
 

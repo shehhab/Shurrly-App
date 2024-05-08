@@ -212,7 +212,7 @@ Route::group(['prefix' => 'v1/core'], function () {
 Route::group(['prefix' => 'v1/home'], function () {
 
     Route::get('', HomeController::class);
-    Route::get('/top_rate', TopRateController::class);
+    Route::get('/top_rate_advisor', TopRateController::class);
 
     Route::get('/search', SearchController::class);
     Route::get('/material', MaterialController::class);
