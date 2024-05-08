@@ -34,27 +34,16 @@ class InitRolesCommand extends Command
         }
 
 
-        // Skill data initialization
-        $skillData = [
-            ['name' => 'Business', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default/Category/Business.PNG'],
-            ['name' => 'Economics', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default/Category/Economics.PNG'],
-            ['name' => 'Finance', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default/Category/Finance.PNG'],
-            ['name' => 'Management', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default/Category/Management.PNG'],
-            ['name' => 'Marketing', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default/Category/Marketing.PNG'],
-        ];
+        $skill1 = Skill::create([
+            'name' => 'Accounting',
+            'public' => true,
+            'categories_id' => 1,
+        ]);
 
-    
+        $imagePath = asset('Default\Category\Accounting.PNG');
 
-        foreach ($skillData as $data) {
-            $skill = Skill::firstOrCreate([
-                'name' => $data['name'],
-                'public' => $data['public'],
-                'category_id' => $data['category_id'],
-            ]);
-
-            $imagePath = asset($data['image_path']);
-            $skill->addMediaFromUrl($imagePath)->toMediaCollection('image_category');
-        }
+        $skill1->addMediaFromUrl($imagePath)
+               ->toMediaCollection('image_category');
 
         $this->info('Roles and skills initialized successfully.');
 
