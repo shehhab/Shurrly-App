@@ -18,7 +18,7 @@ class SkillsTableSeeder extends Seeder
             'public' => true,
             'categories_id' => 1,
         ]);
-        $imagePath = asset('Accounting.png');
+        $imagePath = asset('Default\Category\Accounting.png');
         $skill1->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
 
 
