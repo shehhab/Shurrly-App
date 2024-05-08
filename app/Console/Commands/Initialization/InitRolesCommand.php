@@ -48,7 +48,7 @@ class InitRolesCommand extends Command
             'categories_id' => 1,
         ]);
 
-        $imagePath = asset('Default\Category\Accounting.PNG');
+        $imagePath = asset('Default\Category\Accounting.png');
 
         $skill1->addMediaFromUrl($imagePath)
                ->toMediaCollection('image_category');
@@ -57,7 +57,6 @@ class InitRolesCommand extends Command
 
 
 
-        $this->info('Update DataBase successfully.');
         return;
 
     }
