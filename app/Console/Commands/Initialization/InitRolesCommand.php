@@ -28,11 +28,19 @@ class InitRolesCommand extends Command
      */
     public function handle()
     {
-        $roles = ['admin', 'advisor', 'seeker'];
-        foreach ($roles as $role) {
-            Role::firstOrCreate(['name' => $role, 'guard' => 'web']);
-        }
+        Role::create([
+            'name' => 'admin',
+            'guard'=>'web'
+        ]);
+        Role::create([
+            'name' => 'advisor',
+            'guard'=>'web'
+        ]);
 
+        Role::create([
+            'name' => 'seeker',
+            'guard'=>'web'
+        ]);
 
         $skill1 = Skill::create([
             'name' => 'Accounting',
@@ -49,6 +57,7 @@ class InitRolesCommand extends Command
 
 
 
+        $this->info('Update DataBase successfully.');
         return;
 
     }
