@@ -18,8 +18,9 @@ class SkillsTableSeeder extends Seeder
             'public' => true,
             'categories_id' => 1,
         ]);
-        $imagePath = asset('Default\Category\Accounting.png');
+        $imagePath = asset('Default\Category\Accounting.PNG');
         $skill1->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
+
 
 
         $skill2 = Skill::create([
@@ -27,7 +28,7 @@ class SkillsTableSeeder extends Seeder
             'public' => true,
             'categories_id' => 1,
         ]);
-        $imagePath = asset('Default\Category\Business.png');
+        $imagePath = asset('Default\Category\Business.PNG');
         $skill2->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
 
 
@@ -36,7 +37,7 @@ class SkillsTableSeeder extends Seeder
             'public' => true,
             'categories_id' => 1,
         ]);
-        $imagePath = asset('Default\Category\Economics.png');
+        $imagePath = asset('Default\Category\Economics.PNG');
         $skill3->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
 
         $skill4 = Skill::create([
@@ -44,7 +45,7 @@ class SkillsTableSeeder extends Seeder
             'public' => true,
             'categories_id' => 1,
         ]);
-        $imagePath = asset('Default\Category\Finance.png');
+        $imagePath = asset('Default\Category\Finance.PNG');
         $skill4->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
 
         $skill5 = Skill::create([
@@ -52,7 +53,7 @@ class SkillsTableSeeder extends Seeder
             'public' => true,
             'categories_id' => 1,
         ]);
-        $imagePath = asset('Default\Category\Management.png');
+        $imagePath = asset('Default\Category\Management.PNG');
         $skill5->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
 
 
@@ -62,7 +63,7 @@ class SkillsTableSeeder extends Seeder
             'public' => true,
             'categories_id' => 1,
         ]);
-        $imagePath = asset('Default\Category\Marketing.png');
+        $imagePath = asset('Default\Category\Marketing.PNG');
         $skill6->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
 
 
