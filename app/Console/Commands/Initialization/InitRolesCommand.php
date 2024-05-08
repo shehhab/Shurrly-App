@@ -51,7 +51,7 @@ class InitRolesCommand extends Command
         $imagePath = asset('Default\Category\Accounting.png');
 
         $skill1->addMediaFromUrl($imagePath)
-               ->toMediaCollection('image_category');
+               ->toMediaCollection('image_catogory');
 
         $this->info('Roles and skills initialized successfully.');
 
