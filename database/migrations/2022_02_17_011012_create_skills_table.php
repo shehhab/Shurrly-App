@@ -20,25 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $skillData = [
-            ['name' => 'Accounting', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Accounting.PNG'],
-            ['name' => 'Business', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Business.PNG'],
-            ['name' => 'Economics', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Economics.PNG'],
-            ['name' => 'Finance', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Finance.PNG'],
-            ['name' => 'Management', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Management.PNG'],
-            ['name' => 'Marketing', 'public' => true, 'categories_id' => 1, 'image_path' => 'Default\Category\Marketing.PNG'],
-        ];
 
-        foreach ($skillData as $data) {
-            $skill = Skill::create([
-                'name' => $data['name'],
-                'public' => $data['public'],
-                'categories_id' => $data['categories_id'],
-            ]);
-
-            $imagePath = asset($data['image_path']);
-            $skill->addMediaFromUrl($imagePath)->toMediaCollection('image_catogory');
-        }
     }
 
     /**
