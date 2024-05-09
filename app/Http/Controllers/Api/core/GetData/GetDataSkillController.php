@@ -12,22 +12,31 @@ class GetDataSkillController extends Controller
     public function __invoke()
     {
         $perPage = 6;
-        $skills = Skill::select('id', 'name')->paginate($perPage);
+        $categories = Category::select('id', 'name')->paginate($perPage);
 
         $data = [
-            'skills' => [
-                'data' => $skills->map(function ($skill) {
-                    // Get the URL of the worker's profile image from the 'image_catogory' collection for each skill
-                    $profileImage = $skill->getFirstMedia('image_catogory');
-                    $profileImageUrl = $profileImage ? $profileImage->getUrl() : asset('Default/profile.jpeg');
+            'category' => [
+                'data' => $categories->map(function ($category) {
+                    // Get skills for each category
+                    $skills = Skill::where('categories_id', $category->id)->get();
+
+                    // Get the URL of the worker's profile image from the 'image_category' collection for each skill
+                    $profileImages = $skills->map(function ($skill) {
+                        $profileImage = $skill->getFirstMedia('image_catogory');
+                        $profileImageUrl = $profileImage ? $profileImage->getUrl() : asset('Default/profile.jpeg');
+                            return [
+                            'id' => $skill->id,
+                            'name' => $skill->name,
+                            'profile_image_url' => $profileImageUrl,
+                        ];
+                    });
 
                     return [
-                        'id' => $skill->id,
-                        'name' => $skill->name,
-                        'profile_image_url' => $profileImageUrl,
+                        'id' => $category->id,
+                        'name' => $category->name,
+                        'skills' => $profileImages,
                     ];
                 }),
-                'pagination' => $this->pagination($skills),
             ],
         ];
 

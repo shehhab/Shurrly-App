@@ -19,24 +19,25 @@ use App\Http\Controllers\Api\core\Block\BlockController;
 
 // Api routes for controllers seeker
 
-use App\Http\Controllers\Api\Seeker\Home\HomeController;
 use App\Http\Controllers\Api\Seeker\Auth\LoginController;
 use App\Http\Controllers\Api\core\Report\ReportController;
 use App\Http\Controllers\Api\Seeker\Home\SearchController;
-use App\Http\Controllers\Api\core\Chat\GetAllChatController;
+use App\Http\Controllers\Api\Seeker\Home\TopRateController;
 
 // Api routes for controllers core
 
+use App\Http\Controllers\Api\core\Chat\GetAllChatController;
 use App\Http\Controllers\Api\Seeker\Auth\RegisterController;
 use App\Http\Controllers\Api\core\Support\GetSupportController;
 use App\Http\Controllers\Api\Seeker\Auth\VerifyEmailController;
-use App\Http\Controllers\Api\Seeker\Rate\rate_AdviosrController;
 
+use App\Http\Controllers\Api\Seeker\Home\SpecialistsController;
+use App\Http\Controllers\Api\Seeker\Rate\rate_AdviosrController;
 use App\Http\Controllers\Api\Seeker\Rate\rate_productController;
 use App\Http\Controllers\Api\core\GetData\GetDataSkillController;
+use App\Http\Controllers\Api\Seeker\Home\SearchFillterController;
 use App\Http\Controllers\Api\Seeker\Materials\MaterialController;
 use App\Http\Controllers\Api\Seeker\Profile\GetProfileController;
-// use App\Http\Controllers\Chat\{ChatController, ChatMessageController, SeekerController};
 use App\Http\Controllers\Api\Advisor\Product\AddProductController;
 use App\Http\Controllers\Api\core\authantication\LogoutController;
 use App\Http\Controllers\Api\Advisor\Session\SessionDataController;
@@ -44,13 +45,10 @@ use App\Http\Controllers\Api\Seeker\Session\DeletSessionController;
 use App\Http\Controllers\Api\core\authantication\ValidOTPController;
 use App\Http\Controllers\Api\Seeker\Materials\PageProductController;
 use App\Http\Controllers\Api\Seeker\Profile\UpdateProfileController;
-use App\Http\Controllers\Api\Advisor\Session\DeleteSeesionController;
-use App\Http\Controllers\Api\Seeker\Session\AprovedSessionController;
 use App\Http\Controllers\Api\Seeker\Session\SessionPendingController;
 use App\Http\Controllers\Api\Advisor\Session\SessionHistoryController;
 use App\Http\Controllers\Api\Seeker\Session\SessionScheduleController;
 use App\Http\Controllers\Api\Seeker\Session\UpcomingSessionController;
-use App\Http\Controllers\Api\Seeker\Session\SessionDataSeekerController;
 use App\Http\Controllers\Api\core\authantication\DeleteAccountController;
 use App\Http\Controllers\Api\core\authantication\ResendOTPCodeController;
 use App\Http\Controllers\Api\core\authantication\ResetPasswordController;
@@ -62,11 +60,9 @@ use App\Http\Controllers\Api\Advisor\authantication\LoginAdvisorController;
 use App\Http\Controllers\Api\Seeker\Materials\UnSave_SaveProductController;
 use App\Http\Controllers\Api\Advisor\authantication\CreateAdvisorController;
 use App\Http\Controllers\Api\Advisor\Session\Accept_seesion_advisorController;
-use App\Http\Controllers\Api\Seeker\Chat\ChatController as ChatChatController;
 use App\Http\Controllers\Api\Advisor\Session\Cancell_seesion_advisorController;
 use App\Http\Controllers\Api\Advisor\authantication\GetProfileAdvisorController;
 use App\Http\Controllers\Api\Advisor\authantication\UpdateProfileAdvisorController;
-use App\Http\Controllers\Api\Seeker\Home\TopRateController;
 use App\Http\Controllers\Api\Seeker\Session\SessionHistoryController as SessionSessionHistoryController;
 
 /*
@@ -189,7 +185,7 @@ Route::group(['prefix' => 'v1/core'], function () {
     Route::post('/auth/reset_password', ResetPasswordController::class);
     Route::post('/auth/check_otp', ValidOTPController::class);
     Route::post('/auth/get_support', GetSupportController::class);
-    Route::get('/get_data', GetDataSkillController::class);
+    Route::get('/get_category_with_skills', GetDataSkillController::class);
 
 
     // API routes for middleware core token authentication
@@ -211,10 +207,11 @@ Route::group(['prefix' => 'v1/core'], function () {
 
 Route::group(['prefix' => 'v1/home'], function () {
 
-    Route::get('', HomeController::class);
+    Route::get('/specialists_advisor', SpecialistsController::class);
     Route::get('/top_rate_advisor', TopRateController::class);
 
     Route::get('/search', SearchController::class);
+
     Route::get('/material', MaterialController::class);
     Route::post('/product_page', PageProductController::class);
     Route::post('/rate', rate_productController::class);

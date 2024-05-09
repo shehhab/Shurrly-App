@@ -63,17 +63,16 @@ class GetProfileAdvisorResources extends JsonResource
             }
 
             return [
-                "id" => $advisor->id,
+                "advisor_id" => $advisor->id,
                 "uuid" => $seeker->uuid,
                 'email_verified' => (bool)$seeker->email_verified_at, // Changed $this->email_verified_at to $seeker->email_verified_at
                 "name" => $seeker->name,
                 "email" => $seeker->email,
                 'bio' => $advisor->bio,
-                "seeker_id" => $advisor->seeker_id,
                 "date_birth" => $dateOfBirth,
                 'image' => $media,
                 'certificates' => $certificates,
-                'offere' => $advisor->offere,
+                'offer' => $advisor->offere,
                 "skills" => $skills,
 
                 'roles' => $seeker->roles->filter(function ($role) {
