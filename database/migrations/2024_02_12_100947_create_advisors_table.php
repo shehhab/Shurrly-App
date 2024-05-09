@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('advisors', function (Blueprint $table) {
             $table->id();
             $table->string('bio');
-            $table->text('offere');
+            $table->integer('offere');
             $table->string('language');
             $table->string('country');
             $table->time('session_duration');
@@ -23,10 +23,6 @@ return new class extends Migration
             $table->foreignId('seeker_id')->references('id')->on('seekers');
             $table->timestamps();
 
-            //$table->float('Session_Pricing', 8, 2)->nullable(); // تصحيح تعريف العمود Session_Pricing
-            //$table->string('Certifications')->nullable();
-            //$table->json('Availability_Session')->nullable();
-            //$table->text('Professional_Summary')->nullable();
 
         });
     }
