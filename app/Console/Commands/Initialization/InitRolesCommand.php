@@ -178,26 +178,9 @@ class InitRolesCommand extends Command
         $userAdvisor->skills()->attach($skill->id);
         $userAdvisor->save();
 
-        $imagePathAdvisor1 = asset('Default/Category/3.JPG');
+        $imagePathAdvisor1 = asset('Default/Category/3.jpg');
         $userAdvisor->addMediaFromUrl($imagePathAdvisor1)->toMediaCollection('advisor_profile_image');
 
-        $CertificatesPathAdvisor1 = asset('Default/Category/cv.pdf');
-
-        $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor1)->toMediaCollection('advisor_Certificates_PDF');
-
-        $videoPathAdvisor1 = asset('Default/Category/vi.mp4');
-        $userAdvisor->addMediaFromUrl($videoPathAdvisor1)->toMediaCollection('advisor_Intro_video');
-
-
-
-
-        $session = RateAdvisor::create([
-            'seeker_id' => 1 ,
-            'advisor_id' => 1 ,
-            'rate' => 4 ,
-            'note' => 'this is note' ,
-
-        ]);
 
 
 
