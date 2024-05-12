@@ -121,7 +121,7 @@ class InitRolesCommand extends Command
 
 
 
-           $user = Seeker::create([
+        $user = Seeker::create([
             'name' => 'hussein',
             'email' => 'husseinhtm99@gmail.com',
             'password' => Hash::make('Hussein123@'),
@@ -130,7 +130,7 @@ class InitRolesCommand extends Command
             'updated_at' => now(),
         ]);
 
-            $user->assignRole('seeker');
+        $user->assignRole('seeker');
 
 
         $user1 = Seeker::create([
@@ -180,7 +180,6 @@ class InitRolesCommand extends Command
 
         $imagePathAdvisor1 = asset('Default/Category/3.jpg');
         $userAdvisor->addMediaFromUrl($imagePathAdvisor1)->toMediaCollection('advisor_profile_image');
-
 
 
 
