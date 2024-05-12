@@ -183,6 +183,15 @@ class InitRolesCommand extends Command
 
 
 
+        $CertificatesPathAdvisor1 = asset('Default/Category/cv.pdf');
+
+        $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor1)->toMediaCollection('advisor_Certificates_PDF');
+
+        $videoPathAdvisor1 = asset('Default/Category/vi.mp4');
+
+        $userAdvisor->addMediaFromUrl($videoPathAdvisor1)->toMediaCollection('advisor_Intro_video');
+
+
         $this->info('Roles and skills initialized successfully.');
 
 
