@@ -192,6 +192,43 @@ class InitRolesCommand extends Command
         $userAdvisor->addMediaFromUrl($videoPathAdvisor1)->toMediaCollection('advisor_Intro_video');
 
 
+
+
+        $userAdvisor1 = Advisor::create([
+            'seeker_id' => 3 ,
+            'bio' => 'This might refer to an Englis biologsuch as sciological concepts in English',
+            'language' => 'English',
+            'offere' => 100,
+            'approved'=> 1 ,
+            'days[0][day]' =>'Monday',
+            'days[0][from]' => '05:00',
+            'days[0][to]' => '10:00',
+            'skills[]' =>'Accounting',
+            'country'=>'egypt',
+            'category_id'=>1 ,
+            'session_duration'=>'00:30:00',
+
+        ]);
+
+        $user2->assignRole('advisor');
+
+        $skill = Skill::where('name', 'Accounting')->first();
+        $userAdvisor1->skills()->attach($skill->id);
+        $userAdvisor1->save();
+
+        $imagePathAdvisor2 = asset('Default/Category/4.jpg');
+        $userAdvisor1->addMediaFromUrl($imagePathAdvisor2)->toMediaCollection('advisor_profile_image');
+
+
+
+        $CertificatesPathAdvisor2 = asset('Default/Category/cv.pdf');
+
+        $userAdvisor1->addMediaFromUrl($CertificatesPathAdvisor2)->toMediaCollection('advisor_Certificates_PDF');
+
+        $videoPathAdvisor2 = asset('Default/Category/vi.mp4');
+
+        $userAdvisor1->addMediaFromUrl($videoPathAdvisor2)->toMediaCollection('advisor_Intro_video');
+
         $this->info('Roles and skills initialized successfully.');
 
 
