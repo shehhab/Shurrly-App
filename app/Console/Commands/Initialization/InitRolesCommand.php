@@ -190,39 +190,6 @@ class InitRolesCommand extends Command
 
 
 
-        $userAdvisor2 = Advisor::create([
-            'seeker_id' => 3 ,
-            'bio' => 'Here’s everything you need to know about Instagram bios, and how to write one worthy of a three-act play. Wherefore art thou bio?',
-            'language' => 'English',
-            'offere' => 100,
-            'approved'=> 1 ,
-            'days[0][day]' =>'Tuesday',
-            'days[0][from]' => '01:00',
-            'days[0][to]' => '05:00',
-            'skills[]' =>'Accounting',
-            'country'=>'Franch',
-            'category_id'=>1 ,
-            'session_duration'=>'00:30:00',
-
-        ]);
-
-        $user2->assignRole('advisor');
-
-        $skill = Skill::where('name', 'Accounting')->first();
-        $userAdvisor2->skills()->attach($skill->id);
-        $userAdvisor2->save();
-
-        $imagePathAdvisor2 = asset('Default/Category/4.JPG');
-        $userAdvisor2->addMediaFromUrl($imagePathAdvisor2)->toMediaCollection('advisor_profile_image');
-
-        $CertificatesPathAdvisor2 = asset('Default/Category/cv.pdf');
-
-        $userAdvisor2->addMediaFromUrl($CertificatesPathAdvisor2)->toMediaCollection('advisor_Certificates_PDF');
-
-        $videoPathAdvisor2 = asset('Default/Category/vi.mp4');
-        $userAdvisor2->addMediaFromUrl($videoPathAdvisor2)->toMediaCollection('advisor_Intro_video');
-
-
 
         $session = RateAdvisor::create([
             'seeker_id' => 1 ,
@@ -232,13 +199,6 @@ class InitRolesCommand extends Command
 
         ]);
 
-        $session = RateAdvisor::create([
-            'seeker_id' => 1 ,
-            'advisor_id' => 2 ,
-            'rate' => '5' ,
-            'note' => 'this is note' ,
-
-        ]);
 
 
         $this->info('Roles and skills initialized successfully.');
