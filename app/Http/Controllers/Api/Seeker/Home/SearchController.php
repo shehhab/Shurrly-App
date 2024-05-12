@@ -15,7 +15,7 @@ class SearchController extends Controller
     {
         $searchText = $request->input('search');
         $filterBy = $request->input('filter_by');
-
+        $perPage = 6 ;
         if (empty($searchText)) {
             return $this->handleResponse(message: 'Please Enter Text');
         }
@@ -75,7 +75,7 @@ class SearchController extends Controller
         }
 
 
-        $advisors = $query->get();
+    $advisors = $query->paginate($perPage);
 
         if ($advisors->isEmpty()) {
             return $this->handleResponse(message: 'Not Found Advisor And Skills');
@@ -101,6 +101,16 @@ class SearchController extends Controller
             $advisorsData[] = $advisorData;
         }
 
-        return $this->handleResponse(data: $advisorsData);
+        // Formatting pagination data
+        $paginationData = $this->pagination($advisors);
+
+        return $this->handleResponse(
+            status : true,
+            message : 'Successfully',
+            data : [
+                'specialists' => $advisorsData,
+                'pagination' => $paginationData,
+            ],
+        );
     }
 }
