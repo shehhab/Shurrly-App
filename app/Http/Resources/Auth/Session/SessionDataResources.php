@@ -38,6 +38,12 @@ class SessionDataResources extends JsonResource
             $data['note'] = $this->note;
         }
 
+
+        // Add 'link_meeting' only if it's not null
+        if ($this->linkseesion !== null) {
+            $data['linkseesion'] = $this->linkseesion;
+        }
+
         return $data;
     }
 }
