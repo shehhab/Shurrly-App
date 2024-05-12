@@ -229,6 +229,14 @@ class InitRolesCommand extends Command
 
         $userAdvisor1->addMediaFromUrl($videoPathAdvisor2)->toMediaCollection('advisor_Intro_video');
 
+
+        $user2 = RateAdvisor::create([
+            'advisor_id' => 1,
+            'seeker_id' => 1,
+            'rate' =>5,
+        ]);
+
+
         $this->info('Roles and skills initialized successfully.');
 
 
