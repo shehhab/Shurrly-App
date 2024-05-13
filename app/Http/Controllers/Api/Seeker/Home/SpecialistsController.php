@@ -36,7 +36,7 @@ class SpecialistsController extends Controller
         // Transforming the data into a specific format
         $topRatedAdvisors = $advisors->map(function ($advisor) {
             return [
-                'id' => $advisor->id,
+                'advisor_id' => $advisor->id,
                 'name' => $advisor->seeker->name,
                 'image' => $advisor->getFirstMediaUrl('advisor_profile_image'),
                 'skills' => $advisor->skills->pluck('name')->toArray(),
