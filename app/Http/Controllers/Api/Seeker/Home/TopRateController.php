@@ -33,7 +33,7 @@ class TopRateController extends Controller
 
             $topRatedAdvisors[] = [
                 'advisor_id' => $avgRating->advisor_id,
-                'avg_rate' => number_format($avgRating->average_rating, 2) ?? 0,
+                'avg_rate' => number_format($avgRating->average_rating, 1) ?? 0,
                 'name' => $advisor->seeker->name,
                 'skills' => $advisor->skills->pluck('name')->toArray(),
                 'categories' => $categoryNames,

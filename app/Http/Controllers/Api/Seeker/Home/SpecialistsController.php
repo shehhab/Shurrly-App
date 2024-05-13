@@ -44,7 +44,7 @@ class SpecialistsController extends Controller
                     return $skill->categories->name ;
                 })->toArray(),
                         'offer' => $advisor->offere,
-                        'avg_rate' => number_format($advisor->rate_advisors_avg_rate, 2) ?? 0, // تنسيق الرقم بعدد أرقام عشرية محددة
+                        'avg_rate' => number_format($advisor->rate_advisors_avg_rate, 1) ?? 0, // تنسيق الرقم بعدد أرقام عشرية محددة
                     ];
         });
 
