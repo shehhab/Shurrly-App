@@ -38,14 +38,14 @@ class SpecialistsController extends Controller
             return [
                 'id' => $advisor->id,
                 'name' => $advisor->seeker->name,
-                'photo_url' => $advisor->getFirstMediaUrl('advisor_profile_image'),
+                'image' => $advisor->getFirstMediaUrl('advisor_profile_image'),
                 'skills' => $advisor->skills->pluck('name')->toArray(),
                 'categories' => $advisor->skills->map(function ($skill) {
                     return $skill->categories->name ;
                 })->toArray(),
                         'offer' => $advisor->offere,
-                'avg_rate' => $advisor->rate_advisors_avg_rate,
-            ];
+                        'avg_rate' => number_format($advisor->rate_advisors_avg_rate, 2) ?? 0, // تنسيق الرقم بعدد أرقام عشرية محددة
+                    ];
         });
 
         // Formatting pagination data
