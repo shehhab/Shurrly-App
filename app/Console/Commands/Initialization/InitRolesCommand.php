@@ -48,7 +48,11 @@ class InitRolesCommand extends Command
         ]);
 
 
-
+        $skill = Skill::create([
+            'name' => 'All',
+            'public' => true,
+            'categories_id' => 1,
+        ]);
 
 
         $skill1 = Skill::create([

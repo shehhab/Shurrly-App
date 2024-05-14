@@ -23,8 +23,8 @@ class GetDataSkillController extends Controller
                     // Get the URL of the worker's profile image from the 'image_category' collection for each skill
                     $profileImages = $skills->map(function ($skill) {
                         $profileImage = $skill->getFirstMedia('image_catogory');
-                        $profileImageUrl = $profileImage ? $profileImage->getUrl() : asset('Default/profile.jpeg');
-                            return [
+                        $profileImageUrl = $profileImage ? $profileImage->getUrl() : null;
+                        return [
                             'id' => $skill->id,
                             'name' => $skill->name,
                             'profile_image_url' => $profileImageUrl,

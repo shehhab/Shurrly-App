@@ -23,8 +23,8 @@ class SpecialistsController extends Controller
         $query = Advisor::with('seeker', 'skills')
             ->where('approved', 1);
 
-        // Check if the skill is provided
-        if ($skill) {
+        // Check if the skill is provided and not equal to 'all'
+        if ($skill && $skill !== 'All') {
             $query->whereHas('skills', function ($query) use ($skill) {
                 $query->where('name', $skill);
             });
