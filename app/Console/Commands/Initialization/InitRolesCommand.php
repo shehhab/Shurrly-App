@@ -271,18 +271,18 @@ class InitRolesCommand extends Command
         $userAdvisor3->skills()->attach($skill->id);
         $userAdvisor3->save();
 
-        $imagePathAdvisor3 = asset('Default/Category/4.jpg');
-        $userAdvisor->addMediaFromUrl($imagePathAdvisor3)->toMediaCollection('advisor_profile_image');
+        $imagePathAdvisor3 = asset('Default/Category/6.jpg');
+        $userAdvisor3->addMediaFromUrl($imagePathAdvisor3)->toMediaCollection('advisor_profile_image');
 
 
 
         $CertificatesPathAdvisor3 = asset('Default/Category/cv.pdf');
 
-        $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor3)->toMediaCollection('advisor_Certificates_PDF');
+        $userAdvisor3->addMediaFromUrl($CertificatesPathAdvisor3)->toMediaCollection('advisor_Certificates_PDF');
 
         $videoPathAdvisor3 = asset('Default/Category/vi.mp4');
 
-        $userAdvisor->addMediaFromUrl($videoPathAdvisor3)->toMediaCollection('advisor_Intro_video');
+        $userAdvisor3->addMediaFromUrl($videoPathAdvisor3)->toMediaCollection('advisor_Intro_video');
 
 
 
@@ -328,18 +328,18 @@ class InitRolesCommand extends Command
         $userAdvisor4->skills()->attach($skill->id);
         $userAdvisor4->save();
 
-        $imagePathAdvisor4 = asset('Default/Category/4.JPG');
-        $userAdvisor->addMediaFromUrl($imagePathAdvisor4)->toMediaCollection('advisor_profile_image');
+        $imagePathAdvisor4 = asset('Default/Category/7.JPG');
+        $userAdvisor4->addMediaFromUrl($imagePathAdvisor4)->toMediaCollection('advisor_profile_image');
 
 
 
         $CertificatesPathAdvisor4 = asset('Default/Category/cv.pdf');
 
-        $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor4)->toMediaCollection('advisor_Certificates_PDF');
+        $userAdvisor4->addMediaFromUrl($CertificatesPathAdvisor4)->toMediaCollection('advisor_Certificates_PDF');
 
         $videoPathAdvisor4 = asset('Default/Category/vi.mp4');
 
-        $userAdvisor->addMediaFromUrl($videoPathAdvisor4)->toMediaCollection('advisor_Intro_video');
+        $userAdvisor4->addMediaFromUrl($videoPathAdvisor4)->toMediaCollection('advisor_Intro_video');
 
 
 
