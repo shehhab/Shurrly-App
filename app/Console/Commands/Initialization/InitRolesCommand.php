@@ -248,7 +248,7 @@ class InitRolesCommand extends Command
         $user3->assignRole('seeker');
 
         $userAdvisor3 = Advisor::create([
-            'seeker_id' => 3 ,
+            'seeker_id' => 4 ,
             'bio' => '
             Laravel is a free and open-source PHP web framework created by Taylor Otwell. Laravel features expressive, elegant syntax - freeing
             ',
@@ -306,7 +306,7 @@ class InitRolesCommand extends Command
         $user4->assignRole('seeker');
 
         $userAdvisor4 = Advisor::create([
-            'seeker_id' => 3 ,
+            'seeker_id' => 5 ,
             'bio' => '
             Filament is the Swiss Army Knife dashboard for TALL stack apps . Just sit down, install and you',
             'language' => 'Ital',
