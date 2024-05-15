@@ -92,8 +92,8 @@ class SearchController extends Controller
             'name' => $advisorModel->seeker->name ?? 'N/A',
             'bio' => $advisorModel->bio,
             'offer' => $advisorModel->offere, // corrected 'offere' to 'offer'
-            'advisor_profile_image' => $mediaUrl,
-            'average_rating' => number_format($averageRating, 1),
+            'image' => $mediaUrl,
+            'avg_rate' => number_format($averageRating, 1) ?? 0,
             'skills' => $skills,
         ];
     }

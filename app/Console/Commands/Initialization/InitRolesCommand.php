@@ -271,7 +271,7 @@ class InitRolesCommand extends Command
         $userAdvisor3->skills()->attach($skill->id);
         $userAdvisor3->save();
 
-        $imagePathAdvisor3 = asset('Default/Category/5.jpg');
+        $imagePathAdvisor3 = asset('Default/Category/4.jpg');
         $userAdvisor->addMediaFromUrl($imagePathAdvisor3)->toMediaCollection('advisor_profile_image');
 
 
