@@ -322,7 +322,7 @@ class InitRolesCommand extends Command
 
         ]);
 
-        $userAdvisor4->assignRole('advisor');
+        $user4->assignRole('advisor');
 
         $skill = Skill::where('name', 'Marketing')->first();
         $userAdvisor4->skills()->attach($skill->id);
