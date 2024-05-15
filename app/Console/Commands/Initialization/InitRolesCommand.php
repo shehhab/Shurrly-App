@@ -276,7 +276,7 @@ class InitRolesCommand extends Command
 
 
 
-        $CertificatesPathAdvisor3 = asset('Default/Category/cvshehab.pdf');
+        $CertificatesPathAdvisor3 = asset('Default/Category/cv.pdf');
 
         $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor3)->toMediaCollection('advisor_Certificates_PDF');
 
@@ -333,7 +333,7 @@ class InitRolesCommand extends Command
 
 
 
-        $CertificatesPathAdvisor4 = asset('Default/Category/cvshehab.pdf');
+        $CertificatesPathAdvisor4 = asset('Default/Category/cv.pdf');
 
         $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor4)->toMediaCollection('advisor_Certificates_PDF');
 
