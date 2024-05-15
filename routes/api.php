@@ -28,9 +28,10 @@ use App\Http\Controllers\Api\Seeker\Home\TopRateController;
 
 use App\Http\Controllers\Api\core\Chat\GetAllChatController;
 use App\Http\Controllers\Api\Seeker\Auth\RegisterController;
+use App\Http\Controllers\Api\Seeker\Home\SearchTestcontroller;
 use App\Http\Controllers\Api\core\Support\GetSupportController;
-use App\Http\Controllers\Api\Seeker\Auth\VerifyEmailController;
 
+use App\Http\Controllers\Api\Seeker\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Seeker\Home\SpecialistsController;
 use App\Http\Controllers\Api\Seeker\Rate\rate_AdviosrController;
 use App\Http\Controllers\Api\Seeker\Rate\rate_productController;
@@ -211,6 +212,7 @@ Route::group(['prefix' => 'v1/home'], function () {
     Route::get('/top_rate_advisor', TopRateController::class);
 
     Route::get('/search', SearchController::class);
+    Route::get('/test', SearchTestcontroller::class);
 
     Route::get('/material', MaterialController::class);
     Route::post('/product_page', PageProductController::class);

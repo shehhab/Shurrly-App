@@ -15,11 +15,11 @@ class SearchController extends Controller
     {
         $searchText = $request->input('search');
         $filterBy = $request->input('filter_by');
-        $perPage = 6 ;
+        $perPage = 6;
+
         if (empty($searchText)) {
             return $this->handleResponse(message: 'Please Enter Text');
         }
-
 
         $query = Advisor::query()
             ->whereIn('seeker_id', function ($query) use ($searchText) {
@@ -32,85 +32,69 @@ class SearchController extends Controller
                 $query->where('name', 'like', "%$searchText%");
             });
 
+        switch ($filterBy) {
+            case 'price':
+                $query->orderBy('offere');
+                break;
 
-        if ($filterBy === "price") {
-            $query->orderBy('offere');
+            case 'rate':
+                $query->withAvg('rates', 'rate')->orderByDesc('rates_avg_rate');
+                break;
+
+            case 'name':
+                $query->join('seekers', 'advisors.seeker_id', '=', 'seekers.id')
+                      ->where('seekers.name', 'like', "%$searchText%")
+                      ->where('advisors.approved', 1)
+                      ->select('advisors.*');
+                break;
+
+            case 'skill':
+                $query =  Advisor::query()
+
+                ->orWhereHas('skills', function ($query) use ($searchText) {
+                    $query->where('name', 'like', "%$searchText%");
+                });
+
+                break;
         }
 
-        if ($filterBy === "rate") {
-            $query = Advisor::query()
-            ->select('advisors.*')
-            ->join('rate_advisors', 'advisors.id', '=', 'rate_advisors.advisor_id')
-            ->whereIn('rate_advisors.seeker_id', function ($query) use ($searchText) {
-                $query->select('id')
-                    ->from('seekers')
-                    ->where('name', 'like', "%$searchText%");
-            })
-            ->orderBy('rate', 'desc');
-        }
-
-        if ($filterBy === "name") {
-            $query = Advisor::query()
-            ->whereIn('seeker_id', function ($query) use ($searchText) {
-                $query->select('id')
-                    ->from('seekers')
-                    ->where('name', 'like', "%$searchText%")
-                    ->where('approved', 1);
-            });
-
-        }
-
-
-        if ($filterBy === "skill") {
-            $query = Advisor::query()
-            ->whereIn('seeker_id', function ($query) use ($searchText) {
-                $query->select('id')
-                    ->from('seekers')
-                    ->where('approved', 1);
-            })
-            ->WhereHas('skills', function ($query) use ($searchText) {
-                $query->where('name', 'like', "%$searchText%");
-            });
-
-        }
-
-
-    $advisors = $query->paginate($perPage);
+        $advisors = $query->paginate($perPage);
 
         if ($advisors->isEmpty()) {
             return $this->handleResponse(message: 'Not Found Advisor And Skills');
         }
 
         $advisorsData = [];
-
         foreach ($advisors as $advisor) {
-                        // Assuming you have a 'profile_image' media in your media library
-        $mediaUrl = Advisor::find($advisor->id)->getFirstMediaUrl('advisor_profile_image');
-            $skills = $advisor->skills->pluck('name')->toArray();
-            $averageRating = RateAdvisor::where('advisor_id', $advisor->id)->avg('rate');
-
-            $advisorData = [
-                'name' => $advisor->seeker->name,
-                'bio' => $advisor->bio,
-                'offer' => $advisor->offere,
-                'advisor_profile_image' => $mediaUrl,
-                'average_rating' => $averageRating,
-                'skills' => $skills,
-
-            ];
-            $advisorsData[] = $advisorData;
+            $advisorsData[] = $this->getAdvisorData($advisor);
         }
 
-        // Formatting pagination data
         $paginationData = $this->pagination($advisors);
 
         return $this->handleResponse(
-            status : true,
-            message : 'Successfully',
-            data : [
+            status: true,
+            message: 'Successfully',
+            data: [
                 'specialists' => $advisorsData,
                 'pagination' => $paginationData,
-            ],
+            ]
         );
+    }
+
+    private function getAdvisorData($advisor)
+    {
+        $advisorModel = Advisor::with('skills', 'seeker')->find($advisor->id);
+        $mediaUrl = $advisorModel->getFirstMediaUrl('advisor_profile_image');
+        $skills = $advisorModel->skills->pluck('name')->toArray();
+        $averageRating = RateAdvisor::where('advisor_id', $advisor->id)->avg('rate');
+
+        return [
+            'name' => $advisorModel->seeker->name ?? 'N/A',
+            'bio' => $advisorModel->bio,
+            'offer' => $advisorModel->offere, // corrected 'offere' to 'offer'
+            'advisor_profile_image' => $mediaUrl,
+            'average_rating' => number_format($averageRating, 1),
+            'skills' => $skills,
+        ];
     }
 }

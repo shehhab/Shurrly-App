@@ -234,6 +234,118 @@ class InitRolesCommand extends Command
         $userAdvisor1->addMediaFromUrl($videoPathAdvisor2)->toMediaCollection('advisor_Intro_video');
 
 
+
+        //user seeker and advisor 3
+        $user3 = Seeker::create([
+            'name' => 'user 3',
+            'email' => 'shehab3@gmail.com',
+            'password' => Hash::make('She0011998877@'),
+            'email_verified_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $user3->assignRole('seeker');
+
+        $userAdvisor3 = Advisor::create([
+            'seeker_id' => 3 ,
+            'bio' => '
+            Laravel is a free and open-source PHP web framework created by Taylor Otwell. Laravel features expressive, elegant syntax - freeing
+            ',
+            'language' => 'French',
+            'offere' => 500,
+            'approved'=> 1 ,
+            'days[0][day]' =>'Tuesday',
+            'days[0][from]' => '01:00',
+            'days[0][to]' => '05:00',
+            'skills[]' =>'Management',
+            'country'=>'egypt',
+            'category_id'=>1 ,
+            'session_duration'=>'00:45:00',
+
+        ]);
+
+        $user3->assignRole('advisor');
+
+        $skill = Skill::where('name', 'Management')->first();
+        $userAdvisor3->skills()->attach($skill->id);
+        $userAdvisor3->save();
+
+        $imagePathAdvisor3 = asset('Default/Category/5.jpg');
+        $userAdvisor->addMediaFromUrl($imagePathAdvisor3)->toMediaCollection('advisor_profile_image');
+
+
+
+        $CertificatesPathAdvisor3 = asset('Default/Category/cvshehab.pdf');
+
+        $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor3)->toMediaCollection('advisor_Certificates_PDF');
+
+        $videoPathAdvisor3 = asset('Default/Category/vi.mp4');
+
+        $userAdvisor->addMediaFromUrl($videoPathAdvisor3)->toMediaCollection('advisor_Intro_video');
+
+
+
+
+
+
+
+
+
+        //user seeker and advisor 4
+
+        $user4 = Seeker::create([
+            'name' => 'user 4',
+            'email' => 'shehab4@gmail.com',
+            'password' => Hash::make('She0011998877@'),
+            'email_verified_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $user4->assignRole('seeker');
+
+        $userAdvisor4 = Advisor::create([
+            'seeker_id' => 3 ,
+            'bio' => '
+            Filament is the Swiss Army Knife dashboard for TALL stack apps . Just sit down, install and you',
+            'language' => 'Ital',
+            'offere' => 600,
+            'approved'=> 1 ,
+            'days[0][day]' =>'Sunday',
+            'days[0][from]' => '13:00',
+            'days[0][to]' => '18:00',
+            'skills[]' =>'Marketing',
+            'country'=>'egypt',
+            'category_id'=>1 ,
+            'session_duration'=>'00:45:00',
+
+        ]);
+
+        $userAdvisor4->assignRole('advisor');
+
+        $skill = Skill::where('name', 'Marketing')->first();
+        $userAdvisor4->skills()->attach($skill->id);
+        $userAdvisor4->save();
+
+        $imagePathAdvisor4 = asset('Default/Category/7.jpg');
+        $userAdvisor->addMediaFromUrl($imagePathAdvisor4)->toMediaCollection('advisor_profile_image');
+
+
+
+        $CertificatesPathAdvisor4 = asset('Default/Category/cvshehab.pdf');
+
+        $userAdvisor->addMediaFromUrl($CertificatesPathAdvisor4)->toMediaCollection('advisor_Certificates_PDF');
+
+        $videoPathAdvisor4 = asset('Default/Category/vi.mp4');
+
+        $userAdvisor->addMediaFromUrl($videoPathAdvisor4)->toMediaCollection('advisor_Intro_video');
+
+
+
+
+
+
         $user2 = RateAdvisor::create([
             'advisor_id' => 1,
             'seeker_id' => 1,

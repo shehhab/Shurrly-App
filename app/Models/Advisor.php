@@ -91,6 +91,10 @@ class Advisor extends Model implements HasMedia
         {
             return $this->hasMany(RateAdvisor::class);
         }
+        public function rates()
+        {
+            return $this->hasMany(RateAdvisor::class, 'advisor_id');
+        }
 
 
 }
