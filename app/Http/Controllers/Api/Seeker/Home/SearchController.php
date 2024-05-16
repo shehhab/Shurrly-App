@@ -59,10 +59,12 @@ class SearchController extends Controller
         }
 
         $advisors = $query->paginate($perPage);
+        $advisor = $query->get();
 
-        if ($advisors->isEmpty()) {
-            return $this->handleResponse(message: 'Not Found Advisor And Skills');
+        if ($advisor->isEmpty()) {
+            return $this->handleResponse(message: 'Not Found Data Please Enter, A Valid Text',data: $advisor);
         }
+
 
         $advisorsData = [];
         foreach ($advisors as $advisor) {
