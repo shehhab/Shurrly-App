@@ -65,6 +65,7 @@ class SearchController extends Controller
             return $this->handleResponse(message: 'Not Found Data Please Enter, A Valid Text',data: $advisor);
         }
 
+        
 
         $advisorsData = [];
         foreach ($advisors as $advisor) {
