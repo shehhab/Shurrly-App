@@ -30,6 +30,10 @@ class Chat extends Model
     {
         return $this->hasOne(ChatMessage::class, 'chat_id')->latest('updated_at');
     }
+    public function chat_messages()
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
     // Define the relationship to the blocks table
     public function blockedByUser()
     {

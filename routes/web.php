@@ -23,12 +23,7 @@ use App\Http\Controllers\Admin\Catogrtoy\SkillsController;
 */
 
 Route::get('/', function () {
-    $data = DB::table('model_has_roles')
-                ->select('model_id', 'model_type')
-                ->where('model_id', '=', 2)
-                ->get();
 
-    return $data;
 });
 
 Route::get('login/google', [SocialGoogle::class, 'redirectToGoogle']);
