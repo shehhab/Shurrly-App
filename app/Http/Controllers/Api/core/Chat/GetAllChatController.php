@@ -55,7 +55,7 @@ class GetAllChatController extends Controller
                     'date_chat_formatted' => $chat->date_chat_formatted,
                     'last_messages' => $chat->lastMessages,
                 ];
-            }); // Remove null entries if any
+            });
 
         $paginationData = $this->pagination($chats);
         return $this->handleResponse(

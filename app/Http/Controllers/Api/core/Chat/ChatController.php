@@ -33,68 +33,46 @@ class ChatController  extends Controller
     }
     public function index(Request $request)
     {
-        $limit = $request->limit ?? 25;
-        $chats = Chat::where($this->mainKey, auth()->user()->id)->with(['messages', 'lastMessages'])->paginate($limit);
+        $id_chat = $request->input('id_chat');
+        if (empty($id_chat)) {
+            return $this->handleResponse(message: 'Please enter Chat_Id' , code : 404 , status : false );
+        }
 
-        // Transforming timestamps for each message in the chat
-        $chats->getCollection()->transform(function ($chat) {
-            $chat->messages->each(function ($message) {
-                $createdAt = Carbon::parse($message->created_at);
-                $message->date_formatted = $createdAt->isoFormat('ddd, DD/MM/YYYY');
-                $message->time_formatted = $createdAt->format('h:i:s A');
 
-                // Defining the current day and the previous day
-                $today = Carbon::today();
-                $yesterday = Carbon::yesterday();
 
-                // Set the appropriate text for history
-                if ($createdAt->isSameDay($today)) {
-                    $message->date_formatted = 'Today';
-                } elseif ($createdAt->isSameDay($yesterday)) {
-                    $message->date_formatted = 'Yesterday';
-                }
-            });
+        $chat = Chat::find($id_chat);
 
-            // Transforming timestamp for last message in the chat
-            $lastMessageCreatedAt = Carbon::parse($chat->lastMessages->created_at);
-            $chat->lastMessages->date_formatted = $lastMessageCreatedAt->isoFormat('ddd, DD/MM/YYYY');
-            $chat->lastMessages->time_formatted = $lastMessageCreatedAt->format('h:i:s A');
+        if (!$chat) {
+            return $this->handleResponse(message: 'Chat Not Found' );
+        }
+        $chat->load(['messages', 'advisor']);
 
-            // Defining the current day and the previous day for last message
-            $today = Carbon::today();
-            $yesterday = Carbon::yesterday();
+        $advisor = $chat->advisor;
 
-            // Set the appropriate text for history for last message
-            if ($lastMessageCreatedAt->isSameDay($today)) {
-                $chat->lastMessages->date_formatted = 'Today';
-            } elseif ($lastMessageCreatedAt->isSameDay($yesterday)) {
-                $chat->lastMessages->date_formatted = 'Yesterday';
-            }
+        if (!$advisor) {
+            return null; // Skip if no advisor is found
+        }
 
-            // Remove created_at and updated_at from last message
-            unset($chat->lastMessages->created_at);
-            unset($chat->lastMessages->updated_at);
-
-            return $chat;
-        });
-
-        // Removing created_at and updated_at from every message
-        $chats->getCollection()->each(function ($chat) {
-            $chat->messages->each(function ($message) {
-                unset($message->created_at, $message->updated_at);
-            });
-        });
-
-        // Format the created_at timestamp for each chat
-        $chats->each(function ($chat) {
-            $createdAt = Carbon::parse($chat->created_at);
-            $chat->date_caht_formatted = $createdAt->isoFormat('ddd, DD/MM/YYYY');
-            $chat->time_caht_formatted = $createdAt->format('h:i A');
-            unset($chat->updated_at);
-            unset($chat->created_at);
-        });
-
-        return $this->handleResponse(data: $chats);
+        // Format the chat timestamps
+        $chat->time_chat_formatted = $chat->created_at->format('h:i:s A');
+        $chat->date_chat_formatted = $chat->created_at->isoFormat('ddd, DD/MM/YYYY');
+    // Format timestamps for each message
+    foreach ($chat->messages as $message) {
+        $message->time_message_formatted = $message->created_at->format('h:i:s A');
+        $message->date_message_formatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
+        unset($message->created_at , $message->updated_at);
+    }
+        $advisorModel = Advisor::find($chat->advisor_id);
+        $mediaUrl = $advisorModel ? $advisorModel->getFirstMediaUrl('advisor_profile_image') : null;
+        return [
+            'id' => $chat->id,
+            'advisor_id' => $chat->advisor_id,
+            'name' => $advisor->name,
+            'image' => $mediaUrl ?: null,
+            'time_chat_formatted' => $chat->time_chat_formatted,
+            'date_chat_formatted' => $chat->date_chat_formatted,
+            'messages' => $chat->messages,
+        ];
     }
 
     public function sendMessage(Request $request)
