@@ -17,7 +17,7 @@ class GetAllChatController extends Controller
     {
         $userId = auth()->user()->id;
         $isSeeker = $request->header('isSeeker');
-
+        $perPage =  6;
         $chats = Chat::with(['chat_messages', 'advisor']) // Load advisor data
             ->where(function ($query) use ($userId) {
                 $query->where('seeker_id', $userId)
@@ -27,38 +27,42 @@ class GetAllChatController extends Controller
                 $query->where('isSeeker', $isSeeker);
             })
             ->with(['lastMessages'])
-            ->get();
+            ->paginate($perPage);
 
         $blockedUsers = Block::where('user_id', $userId)
             ->orWhere('blocked_user_id', $userId)
             ->get()
             ->pluck('blocked_user_id');
 
-        $chats->transform(function ($chat) use ($blockedUsers) {
-            $advisor = $chat->advisor;
+            $chats->transform(function ($chat) use ($blockedUsers) {
+                $advisor = $chat->advisor;
 
-            if (!$advisor) {
-                return null; // Skip if no advisor is found
-            }
+                if (!$advisor) {
+                    return null; // Skip if no advisor is found
+                }
 
-            $this->formatChatTimestamps($chat);
+                $this->formatChatTimestamps($chat);
 
-            $advisorModel = Advisor::find($chat->advisor_id);
-            $mediaUrl = $advisorModel ? $advisorModel->getFirstMediaUrl('advisor_profile_image') : null;
-            return [
-                'id' => $chat->id,
-                'advisor_id' => $chat->advisor_id,
-                'name' => $advisor->name,
-                'image' => $mediaUrl ?: null, // Ensure null if no media found
-                'is_blocked' => $blockedUsers->contains($chat->seeker_id) || $blockedUsers->contains($chat->advisor_id),
-                'time_chat_formatted' => $chat->time_chat_formatted,
-                'date_chat_formatted' => $chat->date_chat_formatted,
-                'last_messages' => $chat->lastMessages,
-            ];
-        }); // Remove null entries if any
+                $advisorModel = Advisor::find($chat->advisor_id);
+                $mediaUrl = $advisorModel ? $advisorModel->getFirstMediaUrl('advisor_profile_image') : null;
+                return [
+                    'id' => $chat->id,
+                    'advisor_id' => $chat->advisor_id,
+                    'name' => $advisor->name,
+                    'image' => $mediaUrl ?: null, // Ensure null if no media found
+                    'is_blocked' => $blockedUsers->contains($chat->seeker_id) || $blockedUsers->contains($chat->advisor_id),
+                    'time_chat_formatted' => $chat->time_chat_formatted,
+                    'date_chat_formatted' => $chat->date_chat_formatted,
+                    'last_messages' => $chat->lastMessages,
+                ];
+            }); // Remove null entries if any
 
+        $paginationData = $this->pagination($chats);
         return $this->handleResponse(
-            data: ['chats' => $chats],
+            data: [
+                'chats' => $chats->items(),
+                'pagination' => $paginationData
+            ],
             code: 200
         );
             }
