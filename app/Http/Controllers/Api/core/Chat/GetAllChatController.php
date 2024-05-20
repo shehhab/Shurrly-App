@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Chat;
 use App\Models\Block;
 use App\Models\Advisor;
+use DateTime; // Import DateTime clas
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,19 +69,43 @@ class GetAllChatController extends Controller
             }
 
 
-    private function formatChatTimestamps($chat)
-    {
-        $chat->time_chat_formatted = $chat->created_at->format('h:i:s A');
-        $chat->date_chat_formatted = $chat->created_at->isoFormat('ddd, DD/MM/YYYY');
+            private function formatChatTimestamps($chat)
+            {
+                $chat->time_chat_formatted = $chat->created_at->format('h:i:s A');
+                $chat->date_chat_formatted = $chat->created_at->isoFormat('ddd, DD/MM/YYYY');
 
-        if ($chat->lastMessages) {
-            $lastMessageCreatedAt = Carbon::parse($chat->lastMessages->created_at);
-            $chat->lastMessages->date_formatted = $lastMessageCreatedAt->isToday() ? 'Today' : ($lastMessageCreatedAt->isYesterday() ? 'Yesterday' : $lastMessageCreatedAt->isoFormat('ddd, DD/MM/YYYY'));
-            $chat->lastMessages->time_formatted = $lastMessageCreatedAt->format('h:i:s A');
+                if ($chat->lastMessages) {
+                    $lastMessageCreatedAt = Carbon::parse($chat->lastMessages->created_at);
+                    $chat->lastMessages->date_formatted = $lastMessageCreatedAt->isToday() ? 'Today' : ($lastMessageCreatedAt->isYesterday() ? 'Yesterday' : $lastMessageCreatedAt->isoFormat('ddd, DD/MM/YYYY'));
+                    $chat->lastMessages->time_formatted = $this->daysBetween($lastMessageCreatedAt); // Use daysBetween function for time formatting
 
-            unset($chat->lastMessages->created_at, $chat->lastMessages->updated_at);
+                    unset($chat->lastMessages->created_at, $chat->lastMessages->updated_at);
+                }
+
+                unset($chat->updated_at, $chat->created_at);
+            }
+
+            private function daysBetween($postDate)
+            {
+                $now = new DateTime();
+                $difference = $now->diff($postDate);
+
+                $days = $difference->d;
+                $hours = $difference->h;
+                $minutes = $difference->i;
+
+                if ($days == 0) {
+                    if ($hours == 0) {
+                        if ($minutes == 0) {
+                            return 'now';
+                        } else {
+                            return $minutes . ' minutes';
+                        }
+                    } else {
+                        return $hours . ' hours';
+                    }
+                } else {
+                    return $days . ' days';
+                }
+            }
         }
-
-        unset($chat->updated_at, $chat->created_at);
-    }
-}

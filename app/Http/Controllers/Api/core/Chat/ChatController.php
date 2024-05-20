@@ -69,7 +69,7 @@ class ChatController  extends Controller
         $mediaUrl = $advisorModel ? $advisorModel->getFirstMediaUrl('advisor_profile_image') : null;
         $paginationData = $this->pagination($messages);
 
-        return [
+        $data =  [
             'id' => $chat->id,
             'advisor_id' => $chat->advisor_id,
             'name' => $advisor->name,
@@ -78,9 +78,8 @@ class ChatController  extends Controller
             'date_chat_formatted' => $chat->date_chat_formatted,
             'messages' => $messages->items(),
             'pagination' => $paginationData
-
-
         ];
+        return $this->handleResponse(data: $data);
     }
 
     public function sendMessage(Request $request)
