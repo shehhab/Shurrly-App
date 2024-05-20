@@ -35,43 +35,51 @@ class ChatController  extends Controller
     {
         $id_chat = $request->input('id_chat');
         if (empty($id_chat)) {
-            return $this->handleResponse(message: 'Please enter Chat_Id' , code : 404 , status : false );
+            return $this->handleResponse(message: 'Please enter Chat_Id', code: 404, status: false);
         }
-
-
 
         $chat = Chat::find($id_chat);
-
         if (!$chat) {
-            return $this->handleResponse(message: 'Chat Not Found' );
+            return $this->handleResponse(message: 'Chat Not Found', code: 404, status: false);
         }
-        $chat->load(['messages', 'advisor']);
+
+        $chat->load('advisor');
 
         $advisor = $chat->advisor;
-
         if (!$advisor) {
-            return null; // Skip if no advisor is found
+            return $this->handleResponse(message: 'Advisor Not Found', code: 404, status: false);
         }
 
         // Format the chat timestamps
         $chat->time_chat_formatted = $chat->created_at->format('h:i:s A');
         $chat->date_chat_formatted = $chat->created_at->isoFormat('ddd, DD/MM/YYYY');
-    // Format timestamps for each message
-    foreach ($chat->messages as $message) {
-        $message->time_message_formatted = $message->created_at->format('h:i:s A');
-        $message->date_message_formatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
-        unset($message->created_at , $message->updated_at);
-    }
+        $perPage = 15;
+
+        // Paginate messages, ordered by created_at from newest to oldest
+        $messages = $chat->messages()->orderBy('created_at', 'desc')->paginate($perPage);
+
+        // Format timestamps for each message
+        foreach ($messages as $message) {
+            $message->time_message_formatted = $message->created_at->format('h:i:s A');
+            $message->date_message_formatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
+            unset($message->created_at, $message->updated_at);
+        }
+
         $advisorModel = Advisor::find($chat->advisor_id);
         $mediaUrl = $advisorModel ? $advisorModel->getFirstMediaUrl('advisor_profile_image') : null;
+        $paginationData = $this->pagination($messages);
+
         return [
             'id' => $chat->id,
             'advisor_id' => $chat->advisor_id,
             'name' => $advisor->name,
-            'image' => $mediaUrl ?: null,
+            'image' => $mediaUrl,
             'time_chat_formatted' => $chat->time_chat_formatted,
             'date_chat_formatted' => $chat->date_chat_formatted,
-            'messages' => $chat->messages,
+            'messages' => $messages->items(),
+            'pagination' => $paginationData
+
+
         ];
     }
 
