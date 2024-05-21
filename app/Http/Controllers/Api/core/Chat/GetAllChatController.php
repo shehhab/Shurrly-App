@@ -55,6 +55,7 @@ class GetAllChatController extends Controller
                 return [
                     'id' => $chat->id,
                     'name' => $chat->seeker->name,
+                    'advisor_id' => $chat->seeker->id,
                     'image' => $media ?: null, // Ensure null if no media found
                     'is_blocked' => $blockedUsers->contains($chat->seeker_id) || $blockedUsers->contains($chat->advisor_id),
                     'time_chat_formatted' => $chat->time_chat_formatted,
@@ -81,6 +82,7 @@ class GetAllChatController extends Controller
                 return [
                     'id' => $chat->id,
                     'name' => $chat->advisor->name,
+                    'advisor_id' => $chat->advisor->id,
                     'image'  =>$media ,
                     'is_blocked' => $blockedUsers->contains($chat->seeker_id) || $blockedUsers->contains($chat->advisor_id),
                     'time_chat_formatted' => $chat->time_chat_formatted,
