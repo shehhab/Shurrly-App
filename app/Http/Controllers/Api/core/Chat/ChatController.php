@@ -56,24 +56,41 @@ class ChatController  extends Controller
         $perPage = 15;
 
         // Paginate messages, ordered by created_at from newest to oldest
-        $messages = $chat->messages()->orderBy('created_at', 'desc')->paginate($perPage);
+        $messages = $chat->messages()->paginate($perPage);
 
         // Format timestamps for each message
         foreach ($messages as $message) {
-            $message->time_message_formatted = $message->created_at->format('h:i:s A');
+            $message->time_message_formatted = $message->created_at->format('h:i');
             $message->date_message_formatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
             unset($message->created_at, $message->updated_at);
         }
 
-        $advisorModel = Advisor::find($chat->advisor_id);
-        $mediaUrl = $advisorModel ? $advisorModel->getFirstMediaUrl('advisor_profile_image') : null;
-        $paginationData = $this->pagination($messages);
+        $media = asset('Default/profile.jpeg'); // Default image
 
+        // Determine the user ID for the current user
+        $userId = auth()->id(); // Assuming you're using Laravel's built-in authentication
+
+        if ($chat->advisor_id == $userId) {
+            $seeker = Seeker::find($chat->seeker_id);
+            if ($seeker) {
+                $media = $seeker->getFirstMediaUrl('seeker_profile_image') ?: $media;
+            }
+        } elseif ($chat->seeker_id == $userId) {
+            $seeker = Seeker::find($chat->advisor_id);
+            if ($seeker) {
+                $advisor = $seeker->advisor;
+                if ($advisor) {
+                    $media = $advisor->getFirstMediaUrl('advisor_profile_image') ?: $seeker->getFirstMediaUrl('seeker_profile_image') ?: $media;
+                }
+            }
+        }
+
+        $paginationData = $this->pagination($messages);
         $data =  [
             'id' => $chat->id,
             'advisor_id' => $chat->advisor_id,
             'name' => $advisor->name,
-            'image' => $mediaUrl,
+            'image' => $media,
             'time_chat_formatted' => $chat->time_chat_formatted,
             'date_chat_formatted' => $chat->date_chat_formatted,
             'messages' => $messages->items(),
@@ -111,7 +128,7 @@ class ChatController  extends Controller
         // Format the created_at timestamp
         $createdAt = $message->created_at;
         //$message->date_formatted = $createdAt->isoFormat('ddd, DD/MM/YYYY');
-        $message->time_formatted = $createdAt->format('h:i:s A');
+        $message->time_formatted = $createdAt->format('h:i');
 
         // Remove the fields you don't want to include in the response
         unset($message->updated_at);

@@ -100,10 +100,9 @@ class GetAllChatController extends Controller
         );
             }
 
-
             private function formatChatTimestamps($chat)
             {
-                $chat->time_chat_formatted = $chat->created_at->format('h:i:s A');
+                $chat->time_chat_formatted = $chat->created_at->format('h:i A');
                 $chat->date_chat_formatted = $chat->created_at->isoFormat('ddd, DD/MM/YYYY');
 
                 if ($chat->lastMessages) {
