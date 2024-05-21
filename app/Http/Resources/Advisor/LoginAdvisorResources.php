@@ -14,8 +14,8 @@ class LoginAdvisorResources extends JsonResource
     {
         $advisor = Auth::user();
         $dateOfBirth = $this->date_birth ? Carbon::createFromFormat('Y-m-d', $this->date_birth)->format('d-m-Y') : null;
-        $userId =  Auth::id();
-        $user = Advisor::find($userId);
+        $user = Advisor::find('id');
+
 
         if (!$user) {
             $user = Advisor::where('seeker_id', $advisor->id)->first();

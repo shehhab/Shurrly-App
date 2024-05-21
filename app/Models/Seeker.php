@@ -63,7 +63,7 @@ class Seeker extends Authenticatable implements HasMedia
 
     public function advisor()
     {
-        return $this->belongsTo(Advisor::class);
+        return $this->hasOne(Advisor::class);
     }
     public function days(){
         return $this->hasMany(Day::class,'advisor_id','id');

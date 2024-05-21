@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\core\Chat;
 use Carbon\Carbon;
 use App\Models\Chat;
 use App\Models\Block;
+use App\Models\Seeker;
 use App\Models\Advisor;
-use DateTime; // Import DateTime clas
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use DateTime; // Import DateTime clas
 use Illuminate\Database\Eloquent\Builder;
 
 
@@ -17,6 +19,7 @@ class GetAllChatController extends Controller
     public function __invoke(Request $request)
     {
         $userId = auth()->user()->id;
+
         $isSeeker = $request->header('isSeeker');
         $perPage =  6;
         $chats = Chat::with(['chat_messages', 'advisor']) // Load advisor data
@@ -35,27 +38,56 @@ class GetAllChatController extends Controller
             ->get()
             ->pluck('blocked_user_id');
 
-            $chats->transform(function ($chat) use ($blockedUsers) {
-                $advisor = $chat->advisor;
-
-                if (!$advisor) {
-                    return null; // Skip if no advisor is found
-                }
+            $chats->transform(function ($chat) use ($blockedUsers , $userId) {
 
                 $this->formatChatTimestamps($chat);
 
-                $advisorModel = Advisor::find($chat->advisor_id);
-                $mediaUrl = $advisorModel ? $advisorModel->getFirstMediaUrl('advisor_profile_image') : null;
+            if ($chat->advisor_id == $userId) {
+
+                $seeker = Seeker::find($chat->seeker_id);
+
+                $media = $seeker->getFirstMediaUrl('seeker_profile_image');
+                if (!$media) {
+
+                    $media = asset('Default/profile.jpeg');
+                }
+
                 return [
                     'id' => $chat->id,
-                    'advisor_id' => $chat->advisor_id,
-                    'name' => $advisor->name,
-                    'image' => $mediaUrl ?: null, // Ensure null if no media found
+                    'name' => $chat->seeker->name,
+                    'image' => $media ?: null, // Ensure null if no media found
                     'is_blocked' => $blockedUsers->contains($chat->seeker_id) || $blockedUsers->contains($chat->advisor_id),
                     'time_chat_formatted' => $chat->time_chat_formatted,
                     'date_chat_formatted' => $chat->date_chat_formatted,
                     'last_messages' => $chat->lastMessages,
                 ];
+            }
+
+
+            if ($chat->seeker_id == $userId)
+            {
+                $seeker = Seeker::find($chat->advisor_id);
+                $advisor = $seeker->advisor;
+
+                $media = $advisor->getFirstMediaUrl('advisor_profile_image');
+                if (!$media) {
+                    $media = $seeker->getFirstMediaUrl('seeker_profile_image');
+                }
+                if (!$media) {
+
+                    $media = asset('Default/profile.jpeg');
+                }
+
+                return [
+                    'id' => $chat->id,
+                    'name' => $chat->advisor->name,
+                    'image'  =>$media ,
+                    'is_blocked' => $blockedUsers->contains($chat->seeker_id) || $blockedUsers->contains($chat->advisor_id),
+                    'time_chat_formatted' => $chat->time_chat_formatted,
+                    'date_chat_formatted' => $chat->date_chat_formatted,
+                    'last_messages' => $chat->lastMessages,
+                ];
+            }
             });
 
         $paginationData = $this->pagination($chats);
