@@ -59,11 +59,32 @@ class ChatController  extends Controller
         $messages = $chat->messages()->paginate($perPage);
 
         // Format timestamps for each message
+
+        $formattedMessages = [];
+        $currentDate = null;
+
         foreach ($messages as $message) {
-            $message->time_message_formatted = $message->created_at->format('h:i');
-            $message->date_message_formatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
+            $message->timeMessageFormatted = $message->created_at->format('h:i A');
+            $message->dateMessageFormatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
             unset($message->created_at, $message->updated_at);
+
+            // If the date of the current message is different from the previous one, add the date to the array
+            if ($message->dateMessageFormatted !== $currentDate) {
+                $formattedMessages[] = [
+                    'date_message_formatted' => $message->dateMessageFormatted
+                ];
+                $currentDate = $message->dateMessageFormatted;
+            }
+            $formattedMessages[] = [
+                'id' => $message->id,
+                'chat_id' => $message->chat_id,
+                'message' => $message->message,
+                'isSeeker' => $message->isSeeker,
+                'time_message_formatted' => $message->timeMessageFormatted,
+            ];
+
         }
+
 
         $media = asset('Default/profile.jpeg'); // Default image
 
@@ -72,30 +93,51 @@ class ChatController  extends Controller
 
         if ($chat->advisor_id == $userId) {
             $seeker = Seeker::find($chat->seeker_id);
-            if ($seeker) {
-                $media = $seeker->getFirstMediaUrl('seeker_profile_image') ?: $media;
+            $media = $seeker->getFirstMediaUrl('seeker_profile_image');
+            if (!$media) {
+                $media = asset('Default/profile.jpeg');
             }
-        } elseif ($chat->seeker_id == $userId) {
-            $seeker = Seeker::find($chat->advisor_id);
-            if ($seeker) {
-                $advisor = $seeker->advisor;
-                if ($advisor) {
-                    $media = $advisor->getFirstMediaUrl('advisor_profile_image') ?: $seeker->getFirstMediaUrl('seeker_profile_image') ?: $media;
-                }
-            }
+            $paginationData = $this->pagination($messages);
+
+            $data = [
+                'id' => $chat->id,
+                'advisor_id' => $chat->advisor_id,
+                'name' => $advisor->seeker->name,
+                'image' => $media,
+                'time_chat_formatted' => $chat->time_chat_formatted,
+                'date_chat_formatted' => $chat->date_chat_formatted,
+                'messages' => $formattedMessages,
+                'pagination' => $paginationData
+            ];
         }
 
-        $paginationData = $this->pagination($messages);
-        $data =  [
-            'id' => $chat->id,
-            'advisor_id' => $chat->advisor_id,
-            'name' => $advisor->name,
-            'image' => $media,
-            'time_chat_formatted' => $chat->time_chat_formatted,
-            'date_chat_formatted' => $chat->date_chat_formatted,
-            'messages' => $messages->items(),
-            'pagination' => $paginationData
-        ];
+        if ($chat->seeker_id == $userId) {
+            $seeker = Seeker::find($chat->advisor_id);
+            $advisor = $seeker->advisor;
+
+            $media = $advisor->getFirstMediaUrl('advisor_profile_image');
+            if (!$media) {
+                $media = $seeker->getFirstMediaUrl('seeker_profile_image');
+            }
+            if (!$media) {
+                $media = asset('Default/profile.jpeg');
+            }
+            $paginationData = $this->pagination($messages);
+
+            $data = [
+                'id' => $chat->id,
+                'advisor_id' => $chat->advisor_id,
+                'name' => $advisor->seeker->name,
+                'image' => $media,
+                'time_chat_formatted' => $chat->time_chat_formatted,
+                'date_chat_formatted' => $chat->date_chat_formatted,
+                'messages' => $formattedMessages,
+                'pagination' => $paginationData
+            ];
+        }
+
+
+
         return $this->handleResponse(data: $data);
     }
 
