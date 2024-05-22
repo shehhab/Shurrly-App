@@ -63,28 +63,35 @@ class ChatController  extends Controller
         $formattedMessages = [];
         $currentDate = null;
 
-        foreach ($messages as $message) {
-            $message->timeMessageFormatted = $message->created_at->format('h:i A');
-            $message->dateMessageFormatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
-            unset($message->created_at, $message->updated_at);
 
-            // If the date of the current message is different from the previous one, add the date to the array
-            if ($message->dateMessageFormatted !== $currentDate) {
-                $formattedMessages[] = [
-                    'date_message_formatted' => $message->dateMessageFormatted
-                ];
-                $currentDate = $message->dateMessageFormatted;
-            }
-            $formattedMessages[] = [
-                'id' => $message->id,
-                'chat_id' => $message->chat_id,
-                'message' => $message->message,
-                'isSeeker' => $message->isSeeker,
-                'time_message_formatted' => $message->timeMessageFormatted,
-            ];
 
-        }
+foreach ($messages as $message) {
+    $message->timeMessageFormatted = $message->created_at->format('h:i A');
+    $message->dateMessageFormatted = $message->created_at->isoFormat('ddd, DD/MM/YYYY');
+    unset($message->created_at, $message->updated_at);
 
+    // If the date of the current message is different from the previous one, add the date to the array
+    if ($message->dateMessageFormatted !== $currentDate) {
+        $currentDate = $message->dateMessageFormatted;
+
+        // Start a new array for the current date
+        $formattedMessages[] = [
+            'date_message_formatted' => $currentDate,
+            'messages' => [],
+        ];
+    }
+
+    // Add the message to the array for the current date
+    $formattedMessages[count($formattedMessages) - 1]['messages'][] = [
+        'id' => $message->id,
+        'chat_id' => $message->chat_id,
+        'message' => $message->message,
+        'isSeeker' => $message->isSeeker,
+        'time_message_formatted' => $message->timeMessageFormatted,
+    ];
+}
+
+        $data['messages'] = $formattedMessages;
 
         $media = asset('Default/profile.jpeg'); // Default image
 
