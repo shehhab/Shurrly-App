@@ -18,8 +18,13 @@ class SearchController extends Controller
         $perPage = 6;
 
         if (empty($searchText)) {
-            return $this->handleResponse(message: 'Please Enter Text');
-        }
+            return response()->json([
+                'status' => true,
+                'code' => 200,
+                'message' => 'Please Enter Text',
+                'data' => []
+            ]);
+            }
 
         $query = Advisor::query()
             ->whereIn('seeker_id', function ($query) use ($searchText) {
@@ -65,7 +70,7 @@ class SearchController extends Controller
             return $this->handleResponse(message: 'Not Found Data Please Enter, A Valid Text',data: $advisor);
         }
 
-        
+
 
         $advisorsData = [];
         foreach ($advisors as $advisor) {
