@@ -46,10 +46,20 @@ class PageProductController extends Controller
 
         if ($product->video_duration !== null) {
             $formattedProduct['video_duration'] = $product->video_duration;
+            $formattedProduct['type'] =  'video' ;
+            // ! this is remove when complete payment
+            $formattedProduct['video'] =$product->getFirstMediaUrl('Product_Video');
+
         }
 
         if ($product->pdf_page_count !== null) {
             $formattedProduct['pdf_page_count'] = $product->pdf_page_count;
+            $formattedProduct['type'] =  'pdf' ;
+
+            // ! this is remove when complete payment
+
+            $formattedProduct['pdf'] =$product->getFirstMediaUrl('product_pdf');
+
         }
 
         return $this->handleResponse(status:true , data: $formattedProduct);
