@@ -38,7 +38,7 @@ class MaterialController extends Controller
 
 
             // Calculate average rate
-            $averageRate = $rates->isNotEmpty() ? $rates->average() : null;
+            $averageRate = $rates->isNotEmpty() ? $rates->average() : 0;
             $data = [
                 'product_id' => $product->id,
                 'product_title' => $product->title,
@@ -46,16 +46,46 @@ class MaterialController extends Controller
                 'skills' => $product->skills->pluck('name')->toArray(),
                 'product_cover_photo' => $product->getFirstMediaUrl('cover_product'),
                 'categories' => $product->advisor->category->pluck('name')->toArray(),
-                'average_rate' => $averageRate,
+                'average_rate' => number_format($averageRate, 1) ?? 0,
+
             ];
 
             // Check if video_duration is not null and add it to the data
             if ($product->video_duration !== null) {
                 $data['video_duration'] = $product->video_duration;
+
+                $durationInSeconds = strtotime("1970-01-01 " . $data['video_duration'] . " UTC");
+
+                // تحويل المدة إلى تنسيق مختصر
+                if ($durationInSeconds < 60) {
+                    $formattedDuration = $durationInSeconds . " ".'Sec'; // ثواني
+                }
+                elseif ($durationInSeconds < 3600) {
+                    $minutes = gmdate("i", $durationInSeconds);
+                    $seconds = gmdate("s", $durationInSeconds);
+                    if ($seconds >= 30) {
+                        $minutes++; // زيادة الدقائق
+                        $seconds = 0; // إعادة الثواني إلى صفر
+                    }
+                    $formattedDuration = $minutes ." ". 'Min' ; // دقائق وثواني
+                }
+
+
+
+
+                else {
+          // إذا كانت المدة تزيد عن ساعة، يتم عرض الساعات والدقائق
+          $hours = gmdate("H", $durationInSeconds);
+          $minutes = gmdate("i", $durationInSeconds);
+          $formattedDuration = $hours . ':' . $minutes; // ساعات ودقائق
+                }
+
+                // تعيين المدة المحولة إلى البيانات
+                $data['video_duration'] = $formattedDuration;
+
+                // إضافة القيم الإضافية
                 $data['type'] = "video";
-
-                $data['video'] =$product->getFirstMediaUrl('Product_Video');
-
+                $data['video'] = $product->getFirstMediaUrl('Product_Video');
             }
 
             // Check if pdf_page_count is not null and add it to the data

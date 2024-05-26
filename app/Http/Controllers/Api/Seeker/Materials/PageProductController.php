@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Seeker\Materials;
 
+use App\Models\Rate;
+use App\Models\Seeker;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Seeker;
 
 class PageProductController extends Controller
 {
@@ -21,6 +22,9 @@ class PageProductController extends Controller
 
         // Get default image URL
         $defaultImage = asset('Default/profile.jpeg');
+        $rates = Rate::where('product_id', $product->id)->pluck('rate');
+
+        $averageRate = $rates->isNotEmpty() ? $rates->average() : 0;
 
         $formattedProduct = [
             'product_id' => $product->id,
@@ -28,8 +32,11 @@ class PageProductController extends Controller
             'product_price' => $product->price,
             'product_description' => $product->description,
             'product_cover_photo' => $product->getFirstMediaUrl('cover_product'),
+            'average_rate' => number_format($averageRate, 1) ?? 0,
+
             'skills' => $product->skills->pluck('name')->toArray(),
             'ratings' => $product->ratings->map(function($rating) use ($defaultImage) {
+
                 // Check if seeker_profile_image exists, otherwise use default image
                 $seekerProfileImage = $rating->seeker->getFirstMediaUrl('seeker_profile_image');
                 $seekerProfileImageUrl = $seekerProfileImage ? $seekerProfileImage : $defaultImage;
