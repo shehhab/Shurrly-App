@@ -57,6 +57,7 @@ use App\Http\Controllers\Api\Seeker\Materials\ViewProductSavedController;
 use App\Http\Controllers\Api\Advisor\Session\HideSeesionHistoryController;
 use App\Http\Controllers\Api\core\authantication\ChangePasswordController;
 use App\Http\Controllers\Api\core\authantication\ForgetPasswordController;
+use App\Http\Controllers\Api\Seeker\Materials\ProductShowReviewController;
 use App\Http\Controllers\Api\Advisor\authantication\LoginAdvisorController;
 use App\Http\Controllers\Api\Seeker\Materials\UnSave_SaveProductController;
 use App\Http\Controllers\Api\Advisor\authantication\CreateAdvisorController;
@@ -215,7 +216,10 @@ Route::group(['prefix' => 'v1/home'], function () {
     Route::get('/test', SearchTestcontroller::class);
 
     Route::get('/material', MaterialController::class);
-    Route::post('/product_page', PageProductController::class);
+
+    Route::get('/product_page_review', ProductShowReviewController::class);
+
+
     Route::post('/rate', rate_productController::class);
     Route::post('/rate_advisor', [rate_AdviosrController::class, 'rateAdvisor']);
 
@@ -223,6 +227,7 @@ Route::group(['prefix' => 'v1/home'], function () {
     Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::post('block/toggle', BlockController::class);
+        Route::post('/product_page', PageProductController::class);
 
         Route::post('/save-or-unsave-product', UnSave_SaveProductController::class);
     });

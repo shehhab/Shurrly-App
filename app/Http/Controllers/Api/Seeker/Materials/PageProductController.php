@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Api\Seeker\Materials;
 use App\Models\Rate;
 use App\Models\Seeker;
 use App\Models\Product;
+use App\Models\SavedProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PageProductController extends Controller
 {
     public function __invoke(Request $request)
     {
         $productId = $request->input('product_id');
+        $user = Auth::user();
 
-        $product = Product::with('ratings')->find($productId);
+        $product = Product::find($productId);
 
         if (!$product) {
             return $this->handleResponse(status:false, message: 'Product not found', code: 404);
@@ -26,6 +29,9 @@ class PageProductController extends Controller
 
         $averageRate = $rates->isNotEmpty() ? $rates->average() : 0;
 
+        $isSaved = $user->savedProducts()->where('product_id', $product->id)->exists();
+
+
         $formattedProduct = [
             'product_id' => $product->id,
             'product_title' => $product->title,
@@ -35,22 +41,8 @@ class PageProductController extends Controller
             'product_description' => $product->description,
             'product_cover_photo' => $product->getFirstMediaUrl('cover_product'),
             'average_rate' => number_format($averageRate, 1) ?? 0,
-
             'skills' => $product->skills->pluck('name')->toArray(),
-            'ratings' => $product->ratings->map(function($rating) use ($defaultImage) {
-
-                // Check if seeker_profile_image exists, otherwise use default image
-                $seekerProfileImage = $rating->seeker->getFirstMediaUrl('seeker_profile_image');
-                $seekerProfileImageUrl = $seekerProfileImage ? $seekerProfileImage : $defaultImage;
-
-                return [
-                    'rate' => $rating->rate,
-                    'message' => $rating->message,
-                    'create_message' => $rating->created_at,
-                    'seeker_name' => $rating->seeker->name,
-                    'seeker_profile_image' => $seekerProfileImageUrl,
-                ];
-            })->toArray(),
+            'is_saved' => $isSaved, // تحديد ما إذا كان المستخدم قد قام بحفظ المنتج أم لا
         ];
 
         if ($product->video_duration !== null) {
@@ -58,21 +50,20 @@ class PageProductController extends Controller
 
             $durationInSeconds = strtotime("1970-01-01 " . $product->video_duration . " UTC");
 
-            // تحويل المدة إلى تنسيق مختصر
             if ($durationInSeconds < 60) {
-                $formattedDuration = $durationInSeconds . " ".'Sec'; // ثواني
+                $formattedDuration = $durationInSeconds . " ".'Sec';
             } elseif ($durationInSeconds < 3600) {
                 $minutes = gmdate("i", $durationInSeconds);
                 $seconds = gmdate("s", $durationInSeconds);
                 if ($seconds >= 30) {
-                    $minutes++; // زيادة الدقائق
-                    $seconds = 0; // إعادة الثواني إلى صفر
+                    $minutes++;
+                    $seconds = 0;
                 }
-                $formattedDuration = $minutes ." ". 'Min' ; // دقائق وثواني
+                $formattedDuration = $minutes ." ". 'Min' ;
             } else {
                 $hours = gmdate("H", $durationInSeconds);
                 $minutes = gmdate("i", $durationInSeconds);
-                $formattedDuration = $hours . ':' . $minutes; // ساعات ودقائق
+                $formattedDuration = $hours . ':' . $minutes;
             }
 
             $formattedProduct['video_duration'] = $formattedDuration;

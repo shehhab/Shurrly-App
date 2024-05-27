@@ -33,7 +33,7 @@ class Product extends Model implements HasMedia
 
     public function savedByUsers()
     {
-        return $this->belongsToMany(SavedProduct::class, 'saved_products', 'product_id', 'seeker_id');
+        return $this->belongsToMany(Seeker::class, 'saved_products', 'product_id', 'seeker_id')->withTimestamps();
     }
     public function ratings()
     {
