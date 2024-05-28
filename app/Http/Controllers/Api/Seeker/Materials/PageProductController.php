@@ -43,7 +43,7 @@ class PageProductController extends Controller
             'average_rate' => number_format($averageRate, 1) ?? 0,
             'skills' => $product->skills->pluck('name')->toArray(),
             // ! is for test edite when payment complete
-            'ispaid'=> false ,
+            'is_paid'=> false ,
             'is_saved' => $isSaved,
         ];
 
