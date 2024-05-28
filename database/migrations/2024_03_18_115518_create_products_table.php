@@ -16,7 +16,7 @@ return new class extends Migration
            // $table->string('name');
             $table->string('title');
             $table->text('description');
-            $table->decimal('price', 8, 2);
+            $table->integer('price');
             $table->time('video_duration')->nullable();
             $table->integer('pdf_page_count')->nullable();
             $table->foreignId('advisor_id')->references('id')->on('advisors');

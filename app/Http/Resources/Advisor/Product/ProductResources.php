@@ -17,7 +17,6 @@ class ProductResources extends JsonResource
     {
         $data =  [
 
-            //'name' => $this->name,
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
@@ -51,7 +50,7 @@ class ProductResources extends JsonResource
         return $data;
 
 
-        
+
     }
 
 

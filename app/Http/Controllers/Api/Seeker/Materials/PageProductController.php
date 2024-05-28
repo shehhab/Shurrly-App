@@ -42,7 +42,9 @@ class PageProductController extends Controller
             'product_cover_photo' => $product->getFirstMediaUrl('cover_product'),
             'average_rate' => number_format($averageRate, 1) ?? 0,
             'skills' => $product->skills->pluck('name')->toArray(),
-            'is_saved' => $isSaved, // تحديد ما إذا كان المستخدم قد قام بحفظ المنتج أم لا
+            // ! is for test edite when payment complete
+            'ispaid'=> false ,
+            'is_saved' => $isSaved,
         ];
 
         if ($product->video_duration !== null) {

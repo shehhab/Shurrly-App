@@ -43,10 +43,13 @@ use App\Http\Controllers\Api\Advisor\Product\AddProductController;
 use App\Http\Controllers\Api\core\authantication\LogoutController;
 use App\Http\Controllers\Api\Advisor\Session\SessionDataController;
 use App\Http\Controllers\Api\Seeker\Session\DeletSessionController;
+use App\Http\Controllers\Api\Advisor\Product\EditeProductController;
 use App\Http\Controllers\Api\core\authantication\ValidOTPController;
 use App\Http\Controllers\Api\Seeker\Materials\PageProductController;
 use App\Http\Controllers\Api\Seeker\Profile\UpdateProfileController;
+use App\Http\Controllers\Api\Advisor\Product\DeleteProductController;
 use App\Http\Controllers\Api\Seeker\Session\SessionPendingController;
+use App\Http\Controllers\Api\Advisor\Product\AllProductUserController;
 use App\Http\Controllers\Api\Advisor\Session\SessionHistoryController;
 use App\Http\Controllers\Api\Seeker\Session\SessionScheduleController;
 use App\Http\Controllers\Api\Seeker\Session\UpcomingSessionController;
@@ -156,24 +159,30 @@ Route::group(['prefix' => 'v1/seeker/auth'], function () {
 
 
 //  API  routes advisor/auth
-Route::group(['prefix' => 'v1/advisor/auth'], function () {
-    Route::post('/login_advisor', LoginAdvisorController::class);
-    Route::get('/get_profile_advisor', GetProfileAdvisorController::class);
-    Route::post('/add_products', AddProductController::class);
+Route::group(['prefix' => 'v1/advisor'], function () {
+    Route::post('/auth/login_advisor', LoginAdvisorController::class);
+    Route::get('/auth/get_profile_advisor', GetProfileAdvisorController::class);
+    Route::post('/auth/add_products', AddProductController::class);
 
 
     // API routes for middleware advisor token authentication
     Route::group(['middleware' => 'auth:sanctum'], function () {
-        Route::post('/create_advisor', CreateAdvisorController::class);
-        Route::post('/update_profile_advisor', UpdateProfileAdvisorController::class);
+        Route::post('/auth/create_advisor', CreateAdvisorController::class);
+        Route::post('/auth/update_profile_advisor', UpdateProfileAdvisorController::class);
 
-        Route::get('/session_data', SessionDataController::class);
-        Route::get('/session_history', SessionHistoryController::class);
+        Route::get('/auth/session_data', SessionDataController::class);
+        Route::get('/auth/session_history', SessionHistoryController::class);
 
-        Route::post('/session_hide', HideSeesionHistoryController::class);
+        Route::post('/auth/session_hide', HideSeesionHistoryController::class);
 
-        Route::post('/accept_session', Accept_seesion_advisorController::class);
-        Route::post('/cancell_session', Cancell_seesion_advisorController::class);
+        Route::post('/auth/accept_session', Accept_seesion_advisorController::class);
+        Route::post('/auth/cancell_session', Cancell_seesion_advisorController::class);
+
+        Route::post('/edite_product', EditeProductController::class);
+
+        Route::post('/delete_product', DeleteProductController::class);
+
+        Route::get('/All_Product', AllProductUserController::class);
 
     });
 });
@@ -228,6 +237,7 @@ Route::group(['prefix' => 'v1/home'], function () {
 
         Route::post('block/toggle', BlockController::class);
         Route::post('/product_page', PageProductController::class);
+
 
         Route::post('/save-or-unsave-product', UnSave_SaveProductController::class);
     });
