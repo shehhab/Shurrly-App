@@ -37,6 +37,6 @@ class UnSave_SaveProductController extends Controller
             $message = 'Product saved successfully';
         }
 
-        return $this->handleResponse(['message' => $message]);
+        return $this->handleResponse(data :['message' => $message]);
     }
 }

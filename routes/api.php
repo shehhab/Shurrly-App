@@ -239,7 +239,7 @@ Route::group(['prefix' => 'v1/home'], function () {
         Route::post('/product_page', PageProductController::class);
 
 
-        Route::post('/save-or-unsave-product', UnSave_SaveProductController::class);
+        Route::post('/save-or-unSave-product', UnSave_SaveProductController::class);
     });
 });
 
