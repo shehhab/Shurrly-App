@@ -19,6 +19,7 @@ class TestController extends Controller
         return $this->handleResponse(data: $skills);
     }
 
+    
     //public function store(Request $request)
     //{
         //$generatedSkills = [];
@@ -36,5 +37,5 @@ class TestController extends Controller
             $q->where('name','LIKE','%'.$request->name.'%');
         });
     }
-    
+
 }
