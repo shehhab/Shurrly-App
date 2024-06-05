@@ -29,11 +29,9 @@ class ViewProductSavedController extends Controller
             if ($product->pdf_page_count !== null) {
                 $formattedProduct['pdf_page_count'] = $product->pdf_page_count;
                 $formattedProduct['type'] = 'pdf';
-                $formattedProduct['pdf'] = $product->getFirstMediaUrl('product_pdf');
             } elseif ($product->video_duration !== null) {
                 $formattedProduct['video_duration'] = $product->video_duration;
                 $formattedProduct['type'] = 'video';
-                $formattedProduct['video'] = $product->getFirstMediaUrl('Product_Video');
             }
 
             return $formattedProduct;

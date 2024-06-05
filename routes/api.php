@@ -229,7 +229,7 @@ Route::group(['prefix' => 'v1/home'], function () {
     Route::get('/product_page_review', ProductShowReviewController::class);
 
 
-    Route::post('/rate', rate_productController::class);
+    Route::post('/rate_product', rate_productController::class);
     Route::post('/rate_advisor', [rate_AdviosrController::class, 'rateAdvisor']);
 
 
@@ -239,7 +239,7 @@ Route::group(['prefix' => 'v1/home'], function () {
         Route::post('/product_page', PageProductController::class);
 
 
-        Route::post('/save-or-unSave-product', UnSave_SaveProductController::class);
+        Route::post('/Save_Product', UnSave_SaveProductController::class);
     });
 });
 
