@@ -93,17 +93,23 @@ foreach ($messages as $message) {
 
         $data['messages'] = $formattedMessages;
 
-        $media = asset('Default/profile.jpeg'); // Default image
 
         // Determine the user ID for the current user
         $userId = auth()->id(); // Assuming you're using Laravel's built-in authentication
 
         if ($chat->advisor_id == $userId) {
             $seeker = Seeker::find($chat->seeker_id);
-            $media = $seeker->getFirstMediaUrl('seeker_profile_image');
+            $advisor = $seeker->advisor;
+
+            $media = $advisor->getFirstMediaUrl('advisor_profile_image');
+            if (!$media) {
+                $media = $seeker->getFirstMediaUrl('seeker_profile_image');
+            }
             if (!$media) {
                 $media = asset('Default/profile.jpeg');
             }
+
+
             $paginationData = $this->pagination($messages);
 
             $data = [
