@@ -86,6 +86,51 @@ class updateMartial extends Command
 
 
 
+    $product3 =Product::create([
+        'title' => 'this is title 3',
+        'description'=>'this is description 3',
+        'price' => 10000,
+        'advisor_id' => 3,
+        'video_duration' =>'00:00:01' ,
+        'skills[]' =>'Entrepreneurship and Startups'
+    ]);
+
+    $image3 = asset('Default/Category/3.jpg');
+    $product3->addMediaFromUrl($image3)->toMediaCollection('cover_product');
+
+    $video3 = asset('Default/Category/h.mp4');
+    $product3->addMediaFromUrl($video3)->toMediaCollection('Product_Video');
+
+
+    $skill = Skill::where('name', 'Entrepreneurship and Startups')->first();
+    $product3->skills()->attach($skill->id);
+    $product3->save();
+
+
+
+
+    $product4 =Product::create([
+        'title' => 'this is title 4',
+        'description'=>'this is description 4',
+        'price' => 5000,
+        'advisor_id' => 3,
+        'pdf_page_count'=> 1 ,
+        'skills[]' =>'Entrepreneurship and Startups'
+    ]);
+
+    $image4 = asset('Default/Category/3.jpg');
+    $product4->addMediaFromUrl($image4)->toMediaCollection('cover_product');
+
+    $video4 = asset('Default/Category/cv.pdf');
+    $product4->addMediaFromUrl($video4)->toMediaCollection('product_pdf');
+
+
+    $skill = Skill::where('name', 'Entrepreneurship and Startups')->first();
+    $product4->skills()->attach($skill->id);
+    $product4->save();
+
+
+
     Rate::create([
         'seeker_id' => 1,
         'product_id' => 1,
