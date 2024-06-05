@@ -48,80 +48,6 @@ class InitRolesCommand extends Command
         ]);
 
 
-        $skill = Skill::create([
-            'name' => 'All',
-            'public' => true,
-            'categories_id' => 1,
-        ]);
-
-
-        $skill1 = Skill::create([
-            'name' => 'Accounting',
-            'public' => true,
-            'categories_id' => 1,
-        ]);
-
-        $imagePath1 = asset('Default/Category/Accounting.png');
-
-        $skill1->addMediaFromUrl($imagePath1)->toMediaCollection('image_catogory');
-
-
-        $skill2 = Skill::create([
-                'name' => 'Business',
-                'public' => true,
-                'categories_id' => 1,
-            ]);
-
-        $imagePath2 = asset('Default/Category/Business.png');
-
-        $skill2->addMediaFromUrl($imagePath2)->toMediaCollection('image_catogory');
-
-
-
-
-        $skill3 = Skill::create([
-            'name' => 'Economics',
-            'public' => true,
-            'categories_id' => 1,
-        ]);
-
-    $imagePath3 = asset('Default/Category/Economics.png');
-
-    $skill3->addMediaFromUrl($imagePath3)->toMediaCollection('image_catogory');
-
-    $skill4 = Skill::create([
-        'name' => 'Finance',
-        'public' => true,
-        'categories_id' => 1,
-    ]);
-
-    $imagePath4 = asset('Default/Category/Finance.png');
-
-    $skill4->addMediaFromUrl($imagePath4)->toMediaCollection('image_catogory');
-
-
-
-    $skill5 = Skill::create([
-        'name' => 'Management',
-        'public' => true,
-        'categories_id' => 1,
-    ]);
-
-    $imagePath5 = asset('Default/Category/Management.png');
-
-    $skill5->addMediaFromUrl($imagePath5)->toMediaCollection('image_catogory');
-
-
-
-    $skill6 = Skill::create([
-        'name' => 'Marketing',
-        'public' => true,
-        'categories_id' => 1,
-    ]);
-
-    $imagePath6 = asset('Default/Category/Marketing.png');
-
-    $skill6->addMediaFromUrl($imagePath6)->toMediaCollection('image_catogory');
 
 
 
@@ -169,7 +95,7 @@ class InitRolesCommand extends Command
             'days[0][day]' =>'Tuesday',
             'days[0][from]' => '01:00',
             'days[0][to]' => '05:00',
-            'skills[]' =>'Economics',
+            'skills[]' =>'Entrepreneurship and Startups',
             'country'=>'egypt',
             'category_id'=>1 ,
             'session_duration'=>'00:30:00',
@@ -178,7 +104,7 @@ class InitRolesCommand extends Command
 
         $user1->assignRole('advisor');
 
-        $skill = Skill::where('name', 'Economics')->first();
+        $skill = Skill::where('name', 'Entrepreneurship and Startups')->first();
         $userAdvisor->skills()->attach($skill->id);
         $userAdvisor->save();
 
@@ -207,7 +133,7 @@ class InitRolesCommand extends Command
             'days[0][day]' =>'Monday',
             'days[0][from]' => '05:00',
             'days[0][to]' => '10:00',
-            'skills[]' =>'Accounting',
+            'skills[]' =>'Business Strategy and Management',
             'country'=>'egypt',
             'category_id'=>1 ,
             'session_duration'=>'00:30:00',
@@ -216,7 +142,7 @@ class InitRolesCommand extends Command
 
         $user2->assignRole('advisor');
 
-        $skill = Skill::where('name', 'Accounting')->first();
+        $skill = Skill::where('name', 'Business Strategy and Management')->first();
         $userAdvisor1->skills()->attach($skill->id);
         $userAdvisor1->save();
 
@@ -258,7 +184,7 @@ class InitRolesCommand extends Command
             'days[0][day]' =>'Tuesday',
             'days[0][from]' => '01:00',
             'days[0][to]' => '05:00',
-            'skills[]' =>'Management',
+            'skills[]' =>'Marketing and Sales',
             'country'=>'egypt',
             'category_id'=>1 ,
             'session_duration'=>'00:45:00',
@@ -267,7 +193,7 @@ class InitRolesCommand extends Command
 
         $user3->assignRole('advisor');
 
-        $skill = Skill::where('name', 'Management')->first();
+        $skill = Skill::where('name', 'Marketing and Sales')->first();
         $userAdvisor3->skills()->attach($skill->id);
         $userAdvisor3->save();
 
@@ -315,7 +241,7 @@ class InitRolesCommand extends Command
             'days[0][day]' =>'Sunday',
             'days[0][from]' => '13:00',
             'days[0][to]' => '18:00',
-            'skills[]' =>'Marketing',
+            'skills[]' =>'Marketing and Sales',
             'country'=>'egypt',
             'category_id'=>1 ,
             'session_duration'=>'00:45:00',
@@ -324,7 +250,7 @@ class InitRolesCommand extends Command
 
         $user4->assignRole('advisor');
 
-        $skill = Skill::where('name', 'Marketing')->first();
+        $skill = Skill::where('name', 'Marketing and Sales')->first();
         $userAdvisor4->skills()->attach($skill->id);
         $userAdvisor4->save();
 

@@ -46,7 +46,7 @@ class updateMartial extends Command
         'price' => 50,
         'advisor_id' => 1,
         'pdf_page_count'=> 1 ,
-        'skills[]' =>'Economics'
+        'skills[]' =>'Entrepreneurship and Startups'
     ]);
 
     $image1 = asset('Default/Category/3.jpg');
@@ -56,7 +56,7 @@ class updateMartial extends Command
     $product1->addMediaFromUrl($video1)->toMediaCollection('product_pdf');
 
 
-    $skill = Skill::where('name', 'Economics')->first();
+    $skill = Skill::where('name', 'Entrepreneurship and Startups')->first();
     $product1->skills()->attach($skill->id);
     $product1->save();
 
@@ -69,7 +69,7 @@ class updateMartial extends Command
         'price' => 100,
         'advisor_id' => 2,
         'video_duration' =>'00:00:01' ,
-        'skills[]' =>'Accounting'
+        'skills[]' =>'Entrepreneurship and Startups'
     ]);
 
     $image2 = asset('Default/Category/3.jpg');
@@ -79,7 +79,7 @@ class updateMartial extends Command
     $product2->addMediaFromUrl($video2)->toMediaCollection('Product_Video');
 
 
-    $skill = Skill::where('name', 'Accounting')->first();
+    $skill = Skill::where('name', 'Entrepreneurship and Startups')->first();
     $product2->skills()->attach($skill->id);
     $product2->save();
 

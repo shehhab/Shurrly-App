@@ -35,7 +35,7 @@ class ChatController  extends Controller
     {
         $id_chat = $request->input('id_chat');
         if (empty($id_chat)) {
-            return $this->handleResponse(message: 'Please enter Chat_Id', code: 404, status: false);
+            return $this->handleResponse(message: 'Please enter id_chat', code: 404, status: false);
         }
 
         $chat = Chat::find($id_chat);
@@ -108,8 +108,8 @@ foreach ($messages as $message) {
 
             $data = [
                 'id' => $chat->id,
-                'advisor_id' => $chat->advisor_id,
-                'name' => $advisor->seeker->name,
+                'advisor_id' => $chat->seeker_id,
+                'name' => $seeker->name,
                 'image' => $media,
                 'time_chat_formatted' => $chat->time_chat_formatted,
                 'date_chat_formatted' => $chat->date_chat_formatted,
