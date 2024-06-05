@@ -109,25 +109,7 @@ class updateMartial extends Command
 
 
 
-    $product4 =Product::create([
-        'title' => 'this is title 4',
-        'description'=>'this is description 4',
-        'price' => 5000,
-        'advisor_id' => 3,
-        'pdf_page_count'=> 1 ,
-        'skills[]' =>'Entrepreneurship and Startups'
-    ]);
 
-    $image4 = asset('Default/Category/3.jpg');
-    $product4->addMediaFromUrl($image4)->toMediaCollection('cover_product');
-
-    $video4 = asset('Default/Category/cv.pdf');
-    $product4->addMediaFromUrl($video4)->toMediaCollection('product_pdf');
-
-
-    $skill = Skill::where('name', 'Entrepreneurship and Startups')->first();
-    $product4->skills()->attach($skill->id);
-    $product4->save();
 
 
 
