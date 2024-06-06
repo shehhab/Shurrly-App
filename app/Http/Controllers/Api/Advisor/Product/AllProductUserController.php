@@ -15,12 +15,20 @@ class AllProductUserController extends Controller
 
         $user = Auth::user();
 
+        // Check if the user has an associated advisor
+        if (!$user->advisor) {
+            return $this->handleResponse(
+                status: false,
+                code: 404,
+                message: 'No advisor associated with this user.',
+                data: []
+            );
+        }
+
         $perPage = 15;
         $products = $user->advisor->products()->paginate($perPage);
 
-        $responseData = [];
-
-        foreach ($products as $product) {
+        $responseData = $products->map(function ($product) {
             $data = [
                 'title' => $product->title,
                 'description' => $product->description,
@@ -47,8 +55,9 @@ class AllProductUserController extends Controller
                 $data['type'] = 'PDF';
             }
 
-            $responseData[] = $data;
-        }
+            return $data;
+        });
+
 
         return $this->handleResponse(status: true, code: 200, message: 'Products retrieved successfully', data:
         [

@@ -57,6 +57,7 @@ use App\Http\Controllers\Api\core\authantication\DeleteAccountController;
 use App\Http\Controllers\Api\core\authantication\ResendOTPCodeController;
 use App\Http\Controllers\Api\core\authantication\ResetPasswordController;
 use App\Http\Controllers\Api\Seeker\Materials\ViewProductSavedController;
+use App\Http\Controllers\Api\Seeker\Session\HideSessionHistoryController;
 use App\Http\Controllers\Api\Advisor\Session\HideSeesionHistoryController;
 use App\Http\Controllers\Api\core\authantication\ChangePasswordController;
 use App\Http\Controllers\Api\core\authantication\ForgetPasswordController;
@@ -124,32 +125,47 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function 
 
 //------------------------------------------Seeker-------------------------------------------------
 
-//  API  routes seeker/auth
-Route::group(['prefix' => 'v1/seeker/auth'], function () {
-    //Route::post('/test',[TestController::class,'store']);   // !  my test PRIVATE
-    //Route::get('/test',[TestController::class,'test']);     // ! my test PRIVATE
-    Route::post('/register', RegisterController::class);
-    Route::post('/login', LoginController::class);
-    Route::post('login/{provider}', [SocialGoogle::class, 'socialLogin']);
+//  API  routes seeker
+Route::group(['prefix' => 'v1/seeker/'], function () {
 
+    // ---------- auth  ----------- //
+
+    Route::post('auth/register', RegisterController::class);
+    Route::post('auth/login', LoginController::class);
+    Route::post('auth/login/{provider}', [SocialGoogle::class, 'socialLogin']);
+
+    // -----       matrial     --------- //
+    Route::get('material', MaterialController::class);
+    Route::get('material/product_page_review', ProductShowReviewController::class);
 
 
     // API routes for middleware seeker token authentication
     Route::group(['middleware' => 'auth:sanctum'], function () {
-        Route::apiResource('chat', ChatController::class)->only('index', 'store', 'show');
 
-        Route::post('/verify_email', VerifyEmailController::class);
-        Route::post('/update/profile', UpdateProfileController::class);
-        Route::get('/get_profile', GetProfileController::class);
+        //Route::apiResource('chat', ChatController::class)->only('index', 'store', 'show'); // !fot test not interested
 
-        Route::get('/saved_products', ViewProductSavedController::class);
+        // ---------- auth  ----------- //
 
-        Route::get('/session_upcoming', UpcomingSessionController::class);
-        Route::get('/session_pending', SessionPendingController::class);
-        Route::get('/session_history', SessionSessionHistoryController::class);
+        Route::post('auth/verify_email', VerifyEmailController::class);
+        Route::post('auth/update/profile', UpdateProfileController::class);
+        Route::get('auth/get_profile', GetProfileController::class);
 
-        Route::post('/session_delete', DeletSessionController::class);
-        Route::get('/session_hide', SessionSessionHistoryController::class);
+        // ---------- session  ----------- //
+
+        Route::get('session/session_upcoming', UpcomingSessionController::class);
+        Route::get('session/session_pending', SessionPendingController::class);
+        Route::get('session/session_history', SessionSessionHistoryController::class);
+        Route::post('session/session_delete', DeletSessionController::class);
+        Route::post('session/session_book', SessionScheduleController::class);
+        Route::post('session/session_hide', HideSessionHistoryController::class);
+
+
+        // -----       matrial     --------- //
+        Route::get('material/saved_products', ViewProductSavedController::class);
+        Route::post('material/product_page', PageProductController::class);
+        Route::post('material/Save_Product', UnSave_SaveProductController::class);
+
+
 
     });
 });
@@ -162,7 +178,7 @@ Route::group(['prefix' => 'v1/seeker/auth'], function () {
 Route::group(['prefix' => 'v1/advisor'], function () {
     Route::post('/auth/login_advisor', LoginAdvisorController::class);
     Route::get('/auth/get_profile_advisor', GetProfileAdvisorController::class);
-    Route::post('/auth/add_products', AddProductController::class);
+    Route::post('/product/add_products', AddProductController::class);
 
 
     // API routes for middleware advisor token authentication
@@ -170,19 +186,19 @@ Route::group(['prefix' => 'v1/advisor'], function () {
         Route::post('/auth/create_advisor', CreateAdvisorController::class);
         Route::post('/auth/update_profile_advisor', UpdateProfileAdvisorController::class);
 
-        Route::get('/auth/session_data', SessionDataController::class);
-        Route::get('/auth/session_history', SessionHistoryController::class);
+        Route::get('/session/session_data', SessionDataController::class);
+        Route::get('/session/session_history', SessionHistoryController::class);
 
-        Route::post('/auth/session_hide', HideSeesionHistoryController::class);
+        Route::post('/session/session_hide', HideSeesionHistoryController::class);
 
-        Route::post('/auth/accept_session', Accept_seesion_advisorController::class);
-        Route::post('/auth/cancell_session', Cancell_seesion_advisorController::class);
+        Route::post('/session/accept_session', Accept_seesion_advisorController::class);
+        Route::post('/session/cancell_session', Cancell_seesion_advisorController::class);
 
-        Route::post('/edite_product', EditeProductController::class);
+        Route::post('/product/edite_product', EditeProductController::class);
 
-        Route::post('/delete_product', DeleteProductController::class);
+        Route::post('/product/delete_product', DeleteProductController::class);
 
-        Route::get('/All_Product', AllProductUserController::class);
+        Route::get('/product/All_Product', AllProductUserController::class);
 
     });
 });
@@ -206,7 +222,6 @@ Route::group(['prefix' => 'v1/core'], function () {
         Route::post('/auth/logout', LogoutController::class);
         Route::get('/auth/get_all_chat', GetAllChatController::class);
         Route::post('/auth/reports/send', ReportController::class);
-        Route::post('/auth/seeker/session', SessionScheduleController::class);
 
 
 
@@ -224,9 +239,7 @@ Route::group(['prefix' => 'v1/home'], function () {
     Route::get('/search', SearchController::class);
     Route::get('/test', SearchTestcontroller::class);
 
-    Route::get('/material', MaterialController::class);
 
-    Route::get('/product_page_review', ProductShowReviewController::class);
 
 
     Route::post('/rate_product', rate_productController::class);
@@ -236,10 +249,8 @@ Route::group(['prefix' => 'v1/home'], function () {
     Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::post('block/toggle', BlockController::class);
-        Route::post('/product_page', PageProductController::class);
 
 
-        Route::post('/Save_Product', UnSave_SaveProductController::class);
     });
 });
 
