@@ -29,6 +29,7 @@ class updateSkills extends Command
     public function handle()
     {
 
+    // ---------------skill All ---------------------//
 
         $skill = Skill::create([
             'name' => 'All',
@@ -36,6 +37,7 @@ class updateSkills extends Command
             'categories_id' => 1,
         ]);
 
+    // ---------------skill 1 ---------------------//
 
         $skill1 = Skill::create([
             'name' => 'Entrepreneurship and Startups',
@@ -46,6 +48,8 @@ class updateSkills extends Command
         $imagePath1 = asset('Default/Category/Accounting.png');
 
         $skill1->addMediaFromUrl($imagePath1)->toMediaCollection('image_catogory');
+
+            // ---------------skill 2 ---------------------//
 
 
         $skill2 = Skill::create([
@@ -59,6 +63,7 @@ class updateSkills extends Command
         $skill2->addMediaFromUrl($imagePath2)->toMediaCollection('image_catogory');
 
 
+            // ---------------skill 3 ---------------------//
 
 
         $skill3 = Skill::create([
@@ -71,6 +76,9 @@ class updateSkills extends Command
 
     $skill3->addMediaFromUrl($imagePath3)->toMediaCollection('image_catogory');
 
+
+                // ---------------skill 4 ---------------------//
+
     $skill4 = Skill::create([
         'name' => 'Branding and Design',
         'public' => true,
@@ -81,6 +89,8 @@ class updateSkills extends Command
 
     $skill4->addMediaFromUrl($imagePath4)->toMediaCollection('image_catogory');
 
+
+                // ---------------skill 5 ---------------------//
 
 
     $skill5 = Skill::create([
@@ -94,6 +104,7 @@ class updateSkills extends Command
     $skill5->addMediaFromUrl($imagePath5)->toMediaCollection('image_catogory');
 
 
+                // ---------------skill 6 ---------------------//
 
     $skill6 = Skill::create([
         'name' => 'Human Resources and Leadership',
@@ -107,6 +118,7 @@ class updateSkills extends Command
 
 
 
+                // ---------------skill 7 ---------------------//
 
     $skill7 = Skill::create([
         'name' => 'Technology and Digital Transformation',
@@ -120,6 +132,7 @@ class updateSkills extends Command
 
 
 
+                // ---------------skill 8 ---------------------//
 
     $skill8 = Skill::create([
         'name' => 'Operations and Supply Chain Management',
@@ -132,6 +145,7 @@ class updateSkills extends Command
     $skill8->addMediaFromUrl($imagePath8)->toMediaCollection('image_catogory');
 
 
+                // ---------------skill 9 ---------------------//
 
 
     $skill9 = Skill::create([
@@ -145,9 +159,7 @@ class updateSkills extends Command
     $skill9->addMediaFromUrl($imagePath9)->toMediaCollection('image_catogory');
 
 
-
-
-
+                // ---------------skill 10 ---------------------//
 
 
     $skill10 = Skill::create([
@@ -161,6 +173,7 @@ class updateSkills extends Command
     $skill10->addMediaFromUrl($imagePath10)->toMediaCollection('image_catogory');
 
 
+                // ---------------skill 11 ---------------------//
 
 
     $skill11 = Skill::create([
@@ -174,6 +187,8 @@ class updateSkills extends Command
     $skill11->addMediaFromUrl($imagePath11)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 12 ---------------------//
+
     $skill12 = Skill::create([
         'name' => 'Manufacturing and Engineering',
         'public' => true,
@@ -184,6 +199,8 @@ class updateSkills extends Command
 
     $skill12->addMediaFromUrl($imagePath12)->toMediaCollection('image_catogory');
 
+
+                        // ---------------skill 13 ---------------------//
 
     $skill13 = Skill::create([
         'name' => 'Education and Training',
@@ -196,6 +213,7 @@ class updateSkills extends Command
     $skill13->addMediaFromUrl($imagePath13)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 14 ---------------------//
 
     $skill14 = Skill::create([
         'name' => 'Healthcare Management',
@@ -208,6 +226,7 @@ class updateSkills extends Command
     $skill14->addMediaFromUrl($imagePath14)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 15 ---------------------//
 
     $skill15 = Skill::create([
         'name' => 'Government Relations and Public Policy',
@@ -219,6 +238,7 @@ class updateSkills extends Command
 
     $skill15->addMediaFromUrl($imagePath15)->toMediaCollection('image_catogory');
 
+                    // ---------------skill 16 ---------------------//
 
 
 
@@ -232,6 +252,7 @@ class updateSkills extends Command
 
     $skill16->addMediaFromUrl($imagePath16)->toMediaCollection('image_catogory');
 
+                    // ---------------skill 17 ---------------------//
 
 
 
@@ -246,6 +267,7 @@ class updateSkills extends Command
     $skill17->addMediaFromUrl($imagePath17)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 18 ---------------------//
 
 
     $skill18 = Skill::create([
@@ -259,6 +281,7 @@ class updateSkills extends Command
     $skill18->addMediaFromUrl($imagePath18)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 19 ---------------------//
 
 
     $skill19 = Skill::create([
@@ -272,6 +295,7 @@ class updateSkills extends Command
     $skill19->addMediaFromUrl($imagePath19)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 20 ---------------------//
 
 
     $skill20 = Skill::create([
@@ -285,6 +309,7 @@ class updateSkills extends Command
     $skill20->addMediaFromUrl($imagePath20)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 21 ---------------------//
 
 
     $skill21 = Skill::create([
@@ -298,6 +323,7 @@ class updateSkills extends Command
     $skill21->addMediaFromUrl($imagePath21)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 22 ---------------------//
 
 
     $skill22 = Skill::create([
@@ -311,6 +337,7 @@ class updateSkills extends Command
     $skill22->addMediaFromUrl($imagePath22)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 23 ---------------------//
 
 
     $skill23 = Skill::create([
@@ -323,6 +350,7 @@ class updateSkills extends Command
 
     $skill23->addMediaFromUrl($imagePath23)->toMediaCollection('image_catogory');
 
+                    // ---------------skill 24 ---------------------//
 
 
     $skill24 = Skill::create([
@@ -336,6 +364,7 @@ class updateSkills extends Command
     $skill24->addMediaFromUrl($imagePath24)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 25 ---------------------//
 
 
     $skill25 = Skill::create([
@@ -348,6 +377,7 @@ class updateSkills extends Command
 
     $skill25->addMediaFromUrl($imagePath25)->toMediaCollection('image_catogory');
 
+                    // ---------------skill 26 ---------------------//
 
 
 
@@ -363,6 +393,7 @@ class updateSkills extends Command
 
 
 
+                    // ---------------skill 27 ---------------------//
 
 
     $skill27 = Skill::create([
@@ -376,6 +407,7 @@ class updateSkills extends Command
     $skill27->addMediaFromUrl($imagePath27)->toMediaCollection('image_catogory');
 
 
+                    // ---------------skill 28 ---------------------//
 
     $skill28 = Skill::create([
         'name' => 'Consulting and Coaching',

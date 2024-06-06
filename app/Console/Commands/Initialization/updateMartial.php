@@ -31,14 +31,8 @@ class updateMartial extends Command
      */
     public function handle()
     {
-    //    name:she
-    //     title:title name 2
-    //    description:this is description 2
-    //     price:50.30
-    //    advisor_id:1
-    //     skills[]:Accounting
-    //     skills[]:laravel
 
+    // ---------------product 1 ---------------------//
 
     $product1 =Product::create([
         'title' => 'this is title 1',
@@ -62,6 +56,7 @@ class updateMartial extends Command
 
 
 
+    // ---------------product 2 ---------------------//
 
     $product2 =Product::create([
         'title' => 'this is title 2',
@@ -84,6 +79,7 @@ class updateMartial extends Command
     $product2->save();
 
 
+    // ---------------product 3 ---------------------//
 
     $product3 =Product::create([
         'title' => 'this is title 3',
@@ -108,6 +104,7 @@ class updateMartial extends Command
 
 
 
+    // ---------------product 4 ---------------------//
 
 
     $product4 =Product::create([
@@ -130,7 +127,10 @@ class updateMartial extends Command
     $product4->skills()->attach($skill->id);
     $product4->save();
 
-    
+
+
+        // ---------------Rate 1---------------------//
+
     Rate::create([
         'seeker_id' => 1,
         'product_id' => 1,
