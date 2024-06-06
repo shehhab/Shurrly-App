@@ -33,6 +33,9 @@ class InitRolesCommand extends Command
      */
     public function handle()
     {
+
+       // ---------------Role ---------------------//
+
         Role::create([
             'name' => 'admin',
             'guard'=>'web'
@@ -49,6 +52,7 @@ class InitRolesCommand extends Command
 
 
 
+       // ---------------seeker  ---------------------//
 
 
         $user = Seeker::create([
@@ -62,6 +66,7 @@ class InitRolesCommand extends Command
 
         $user->assignRole('seeker');
 
+       // ---------------seeker 1  ---------------------//
 
         $user1 = Seeker::create([
             'name' => 'user 1',
@@ -74,6 +79,8 @@ class InitRolesCommand extends Command
 
         $user1->assignRole('seeker');
 
+        // ---------------seeker 2  ---------------------//
+
         $user2 = Seeker::create([
             'name' => 'user 2',
             'email' => 'shehab2@gmail.com',
@@ -84,6 +91,8 @@ class InitRolesCommand extends Command
         ]);
 
         $user2->assignRole('seeker');
+
+         // ---------------advisor 1 belong to seeker 1  ---------------------//
 
 
         $userAdvisor = Advisor::create([
@@ -122,6 +131,7 @@ class InitRolesCommand extends Command
         $userAdvisor->addMediaFromUrl($videoPathAdvisor1)->toMediaCollection('advisor_Intro_video');
 
 
+         // ---------------advisor 2 belong to seeker 2  ---------------------//
 
 
         $userAdvisor1 = Advisor::create([
@@ -161,8 +171,8 @@ class InitRolesCommand extends Command
 
 
 
-        //user seeker and advisor 3
-        $user3 = Seeker::create([
+        // ---------------advisor 3 belong to seeker 3  ---------------------//
+         $user3 = Seeker::create([
             'name' => 'user 3',
             'email' => 'shehab3@gmail.com',
             'password' => Hash::make('She0011998877@'),
@@ -218,7 +228,7 @@ class InitRolesCommand extends Command
 
 
 
-        //user seeker and advisor 4
+        // ---------------advisor 4 belong to seeker 4  ---------------------//
 
         $user4 = Seeker::create([
             'name' => 'user 4',
@@ -268,6 +278,7 @@ class InitRolesCommand extends Command
         $userAdvisor4->addMediaFromUrl($videoPathAdvisor4)->toMediaCollection('advisor_Intro_video');
 
 
+        // ---------------RateAdvisor ----------//
 
 
 
